@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.l3rnz.algebrain.domain.TermTest" tests="11" skipped="0" failures="0" errors="0" timestamp="2020-10-25T14:36:45" hostname="LAPTOP-GC6LSO2O" time="0.024">
+  <properties/>
+  <testcase name="testNegativeVariableTermIsNegative()" classname="com.l3rnz.algebrain.domain.TermTest" time="0.002"/>
+  <testcase name="testNegativeVariableTermWorks()" classname="com.l3rnz.algebrain.domain.TermTest" time="0.001"/>
+  <testcase name="testVariableTermWithThreeNegatives()" classname="com.l3rnz.algebrain.domain.TermTest" time="0.002"/>
+  <testcase name="testThatGetValueOnDecimalShowsRightValueWithSeveralNegatives()" classname="com.l3rnz.algebrain.domain.TermTest" time="0.001"/>
+  <testcase name="testThatDecimalTermDisplaysWell()" classname="com.l3rnz.algebrain.domain.TermTest" time="0.002"/>
+  <testcase name="testThatGetValueShowsRightValue()" classname="com.l3rnz.algebrain.domain.TermTest" time="0.002"/>
+  <testcase name="testThatVariableTermMustBeAllLetters()" classname="com.l3rnz.algebrain.domain.TermTest" time="0.002"/>
+  <testcase name="testThatTermDisplaysWell()" classname="com.l3rnz.algebrain.domain.TermTest" time="0.0"/>
+  <testcase name="testVariableTermWorks()" classname="com.l3rnz.algebrain.domain.TermTest" time="0.001"/>
+  <testcase name="testThatGetValueShowsRightValueWithSeveralNegatives()" classname="com.l3rnz.algebrain.domain.TermTest" time="0.001"/>
+  <testcase name="testThatZeroIsNotNegative()" classname="com.l3rnz.algebrain.domain.TermTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

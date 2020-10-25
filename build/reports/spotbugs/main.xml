@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<BugCollection version="4.1.3" sequence="0" timestamp="1603433105118" analysisTimestamp="1603433105166" release="1.0-SNAPSHOT">
+  <Project projectName="round2 (spotbugsMain)">
+    <Jar>C:\Users\Kyle\round2\build\classes\java\main\com\l3rnz\algebrain\domain\DecimalTerm.class</Jar>
+    <Jar>C:\Users\Kyle\round2\build\classes\java\main\com\l3rnz\algebrain\domain\Expression.class</Jar>
+    <Jar>C:\Users\Kyle\round2\build\classes\java\main\com\l3rnz\algebrain\domain\IntegerTerm.class</Jar>
+    <Jar>C:\Users\Kyle\round2\build\classes\java\main\com\l3rnz\algebrain\domain\Sum.class</Jar>
+    <Jar>C:\Users\Kyle\round2\build\classes\java\main\com\l3rnz\algebrain\domain\SumPart.class</Jar>
+    <Jar>C:\Users\Kyle\round2\build\classes\java\main\com\l3rnz\algebrain\domain\Term.class</Jar>
+    <Jar>C:\Users\Kyle\round2\build\classes\java\main\com\l3rnz\algebrain\exception\ExpressionException.class</Jar>
+    <Jar>C:\Users\Kyle\round2\build\classes\java\main\com\l3rnz\algebrain\parser\ExpressionParser.class</Jar>
+    <SrcDir>C:\Users\Kyle\round2\src\main\resources</SrcDir>
+    <SrcDir>C:\Users\Kyle\round2\src\main\java</SrcDir>
+  </Project>
+  <Errors errors="0" missingClasses="0"></Errors>
+  <FindBugsSummary timestamp="Fri, 23 Oct 2020 00:05:05 -0600" total_classes="8" referenced_classes="56" total_bugs="0" total_size="244" num_packages="3" java_version="13.0.1" vm_version="13.0.1+9" cpu_seconds="12.92" clock_seconds="3.30" peak_mbytes="320.16" alloc_mbytes="1024.00" gc_seconds="0.03">
+    <FileStats path="com/l3rnz/algebrain/domain/DecimalTerm.java" bugCount="0" size="19"/>
+    <FileStats path="com/l3rnz/algebrain/domain/Expression.java" bugCount="0" size="1"/>
+    <FileStats path="com/l3rnz/algebrain/domain/IntegerTerm.java" bugCount="0" size="19"/>
+    <FileStats path="com/l3rnz/algebrain/domain/Sum.java" bugCount="0" size="69"/>
+    <FileStats path="com/l3rnz/algebrain/domain/SumPart.java" bugCount="0" size="28"/>
+    <FileStats path="com/l3rnz/algebrain/domain/Term.java" bugCount="0" size="20"/>
+    <FileStats path="com/l3rnz/algebrain/exception/ExpressionException.java" bugCount="0" size="3"/>
+    <FileStats path="com/l3rnz/algebrain/parser/ExpressionParser.java" bugCount="0" size="85"/>
+    <PackageStats package="com.l3rnz.algebrain.domain" total_bugs="0" total_types="6" total_size="156">
+      <ClassStats class="com.l3rnz.algebrain.domain.DecimalTerm" sourceFile="DecimalTerm.java" interface="false" size="19" bugs="0"/>
+      <ClassStats class="com.l3rnz.algebrain.domain.Expression" sourceFile="Expression.java" interface="true" size="1" bugs="0"/>
+      <ClassStats class="com.l3rnz.algebrain.domain.IntegerTerm" sourceFile="IntegerTerm.java" interface="false" size="19" bugs="0"/>
+      <ClassStats class="com.l3rnz.algebrain.domain.Sum" sourceFile="Sum.java" interface="false" size="69" bugs="0"/>
+      <ClassStats class="com.l3rnz.algebrain.domain.SumPart" sourceFile="SumPart.java" interface="false" size="28" bugs="0"/>
+      <ClassStats class="com.l3rnz.algebrain.domain.Term" sourceFile="Term.java" interface="false" size="20" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="com.l3rnz.algebrain.exception" total_bugs="0" total_types="1" total_size="3">
+      <ClassStats class="com.l3rnz.algebrain.exception.ExpressionException" sourceFile="ExpressionException.java" interface="false" size="3" bugs="0"/>
+    </PackageStats>
+    <PackageStats package="com.l3rnz.algebrain.parser" total_bugs="0" total_types="1" total_size="85">
+      <ClassStats class="com.l3rnz.algebrain.parser.ExpressionParser" sourceFile="ExpressionParser.java" interface="false" size="85" bugs="0"/>
+    </PackageStats>
+    <FindBugsProfile>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassInfoAnalysisEngine" totalMilliseconds="581" invocations="601" avgMicrosecondsPerInvocation="967" maxMicrosecondsPerInvocation="18341" standardDeviationMicrosecondsPerInvocation="1907"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FieldItemSummary" totalMilliseconds="175" invocations="56" avgMicrosecondsPerInvocation="3135" maxMicrosecondsPerInvocation="20748" standardDeviationMicrosecondsPerInvocation="4685"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.ClassDataAnalysisEngine" totalMilliseconds="155" invocations="605" avgMicrosecondsPerInvocation="256" maxMicrosecondsPerInvocation="18269" standardDeviationMicrosecondsPerInvocation="1100"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FindNoSideEffectMethods" totalMilliseconds="133" invocations="56" avgMicrosecondsPerInvocation="2392" maxMicrosecondsPerInvocation="17532" standardDeviationMicrosecondsPerInvocation="3730"/>
+      <ClassProfile name="edu.umd.cs.findbugs.OpcodeStack$JumpInfoFactory" totalMilliseconds="129" invocations="214" avgMicrosecondsPerInvocation="604" maxMicrosecondsPerInvocation="11373" standardDeviationMicrosecondsPerInvocation="1136"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.MethodGenFactory" totalMilliseconds="92" invocations="50" avgMicrosecondsPerInvocation="1846" maxMicrosecondsPerInvocation="82704" standardDeviationMicrosecondsPerInvocation="11552"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.TypeDataflowFactory" totalMilliseconds="80" invocations="48" avgMicrosecondsPerInvocation="1680" maxMicrosecondsPerInvocation="46225" standardDeviationMicrosecondsPerInvocation="6565"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.JavaClassAnalysisEngine" totalMilliseconds="72" invocations="88" avgMicrosecondsPerInvocation="819" maxMicrosecondsPerInvocation="41730" standardDeviationMicrosecondsPerInvocation="4439"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.NoteDirectlyRelevantTypeQualifiers" totalMilliseconds="66" invocations="56" avgMicrosecondsPerInvocation="1185" maxMicrosecondsPerInvocation="14455" standardDeviationMicrosecondsPerInvocation="2244"/>
+      <ClassProfile name="edu.umd.cs.findbugs.detect.FunctionsThatMightBeMistakenForProcedures" totalMilliseconds="62" invocations="56" avgMicrosecondsPerInvocation="1124" maxMicrosecondsPerInvocation="11047" standardDeviationMicrosecondsPerInvocation="2150"/>
+      <ClassProfile name="edu.umd.cs.findbugs.util.TopologicalSort" totalMilliseconds="59" invocations="559" avgMicrosecondsPerInvocation="106" maxMicrosecondsPerInvocation="2271" standardDeviationMicrosecondsPerInvocation="194"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.IsNullValueDataflowFactory" totalMilliseconds="51" invocations="48" avgMicrosecondsPerInvocation="1081" maxMicrosecondsPerInvocation="8777" standardDeviationMicrosecondsPerInvocation="1531"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.AssertionMethodsFactory" totalMilliseconds="49" invocations="7" avgMicrosecondsPerInvocation="7110" maxMicrosecondsPerInvocation="49482" standardDeviationMicrosecondsPerInvocation="17298"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.UnconditionalValueDerefDataflowFactory" totalMilliseconds="44" invocations="46" avgMicrosecondsPerInvocation="962" maxMicrosecondsPerInvocation="7116" standardDeviationMicrosecondsPerInvocation="1262"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.ValueNumberDataflowFactory" totalMilliseconds="40" invocations="48" avgMicrosecondsPerInvocation="851" maxMicrosecondsPerInvocation="12109" standardDeviationMicrosecondsPerInvocation="1763"/>
+      <ClassProfile name="edu.umd.cs.findbugs.ba.npe.NullDerefAndRedundantComparisonFinder" totalMilliseconds="38" invocations="46" avgMicrosecondsPerInvocation="842" maxMicrosecondsPerInvocation="3023" standardDeviationMicrosecondsPerInvocation="693"/>
+      <ClassProfile name="edu.umd.cs.findbugs.classfile.engine.bcel.CFGFactory" totalMilliseconds="36" invocations="48" avgMicrosecondsPerInvocation="751" maxMicrosecondsPerInvocation="13690" standardDeviationMicrosecondsPerInvocation="1918"/>
+    </FindBugsProfile>
+  </FindBugsSummary>
+  <ClassFeatures></ClassFeatures>
+  <History></History>
+</BugCollection>

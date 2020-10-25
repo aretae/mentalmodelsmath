@@ -1,0 +1,6 @@
+com/l3rnz/algebrain/domain/SumTest.java
+ com.l3rnz.algebrain.domain.SumTest
+com/l3rnz/algebrain/parser/ExpressionParserTest.java
+ com.l3rnz.algebrain.parser.ExpressionParserTest
+com/l3rnz/algebrain/domain/TermTest.java
+ com.l3rnz.algebrain.domain.TermTest
