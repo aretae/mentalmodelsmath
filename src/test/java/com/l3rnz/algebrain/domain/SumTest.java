@@ -3,6 +3,11 @@ package com.l3rnz.algebrain.domain;
 import com.l3rnz.algebrain.exception.ExpressionException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ValueSource;
+
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -346,6 +351,42 @@ public class SumTest {
         assertThrows( ExpressionException.class, () -> {
             sum3.merge(e, false);
         });
+    }
+
+    @Test
+    public void testThatNegativeVariableTermCancelsPositive() {
+        VariableTerm vt1 = new VariableTerm("x");
+        VariableTerm vt2 = new VariableTerm("-x");
+        Sum sum3 = new Sum();
+
+        sum3.addTerm(vt1);
+        sum3.addTerm(vt2);
+
+        Term e = sum3.findElementAt(0);
+        Expression newEx = sum3.merge(e, false);
+        String actual = newEx.toString();
+        String expected = "0";
+        assertEquals(expected, actual);
+    }
+
+
+    @ParameterizedTest
+    @MethodSource("terms")
+    public void testThatVariableTermDoesntAddWithStuff(Term t) {
+        VariableTerm vt1 = new VariableTerm("x");
+        Sum sum3 = new Sum();
+
+        sum3.addTerm(vt1);
+        sum3.addTerm(t);
+
+        Term e = sum3.findElementAt(0);
+        assertThrows( ExpressionException.class, () -> {
+            sum3.merge(e, false);
+        });
+    }
+
+    static Stream<Term> terms() {
+        return Stream.of(new IntegerTerm(3), new DecimalTerm(3.3), new VariableTerm("y"));
     }
 
 }

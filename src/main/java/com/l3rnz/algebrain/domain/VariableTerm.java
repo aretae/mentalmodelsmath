@@ -28,10 +28,30 @@ public class VariableTerm extends Term<String> {
         setData(data.substring(counter));
     }
 
-    //TODO ignore this for a bit
     @Override
-    public Term addValue(final Term ex) {
-        return null;
+    public Term addValue(final Term term) {
+        handleBadAdd(term);
+        Term returnValue = null;
+        returnValue = handleCancelingNegatives(term, returnValue);
+        //TODO ignore adding variables that work for a bit
+        return returnValue;
+    }
+
+    private Term handleCancelingNegatives(Term term, Term returnValue) {
+        if (term.getNegativeMultiplier()+this.getNegativeMultiplier() == 0) {
+            returnValue = new IntegerTerm(0);
+        }
+        return returnValue;
+    }
+
+    private void handleBadAdd(Term term) {
+        if (!(term instanceof VariableTerm)) {
+            throw new ExpressionException();
+        }
+        VariableTerm variableTerm = (VariableTerm) term;
+        if (!(data.equals(term.data))) {
+            throw new ExpressionException();
+        }
     }
 
     @Override
