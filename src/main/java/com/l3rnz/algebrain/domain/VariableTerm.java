@@ -3,25 +3,23 @@ package com.l3rnz.algebrain.domain;
 import com.l3rnz.algebrain.exception.ExpressionException;
 
 /**
- * Variable Term holds variable data
+ * Variable Term holds variable data.
  */
 
-public class VariableTerm extends Term<String>{
+public class VariableTerm extends Term<String> {
 
-
-    public VariableTerm(String data) {
-        //TODO start using git
+    public VariableTerm(final String data) {
         handleBadData(data);
         separateDataAndNegatives(data);
     }
 
-    private void handleBadData(String data) {
-        if ( !data.matches("^[-]*[a-zA-Z]+$") ) {
+    private void handleBadData(final String data) {
+        if (!data.matches("^[-]*[a-zA-Z]+$")) {
             throw new ExpressionException();
         }
     }
 
-    private void separateDataAndNegatives(String data) {
+    private void separateDataAndNegatives(final String data) {
         int counter = 0;
         while (data.charAt(counter) == '-') {
             addNegative();
@@ -30,9 +28,9 @@ public class VariableTerm extends Term<String>{
         setData(data.substring(counter));
     }
 
-
+    //TODO ignore this for a bit
     @Override
-    public Term addValue(Term ex) {
+    public Term addValue(final Term ex) {
         return null;
     }
 

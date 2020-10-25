@@ -274,7 +274,6 @@ public class SumTest {
 
     @Test
     public void testThatMergeWorksWithDecimal() {
-
         DecimalTerm dt1 = new DecimalTerm(-3.2);
         Sum sum3 = new Sum();
 
@@ -287,6 +286,66 @@ public class SumTest {
         String actual = newEx.toString();
         String expected = "6.2";
         assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testThatMergeWorksWithTwoDecimals() {
+        DecimalTerm dt1 = new DecimalTerm(-3.2);
+        DecimalTerm dt2 = new DecimalTerm(8.8);
+        Sum sum3 = new Sum();
+
+        sum3.addTerm(dt1);
+        sum3.addTerm(dt2);
+
+        Term e = sum3.findElementAt(0);
+        Expression newEx = sum3.merge(e, false);
+        String actual = newEx.toString();
+        String expected = "5.6";
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testThatMergeWorksWithDecimalBackwards() {
+        DecimalTerm dt1 = new DecimalTerm(3.2);
+        Sum sum3 = new Sum();
+
+        sum3.addTerm(term);
+        sum3.addTerm(dt1);
+
+        Term e = sum3.findElementAt(0);
+        Expression newEx = sum3.merge(e, false);
+        String actual = newEx.toString();
+        String expected = "6.2";
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testThatIntTermDoesntMergeWithVariableTerm() {
+        VariableTerm vt1 = new VariableTerm("x");
+        DecimalTerm dt1 = new DecimalTerm(3.2);
+        Sum sum3 = new Sum();
+
+        sum3.addTerm(dt1);
+        sum3.addTerm(vt1);
+
+        Term e = sum3.findElementAt(0);
+        assertThrows( ExpressionException.class, () -> {
+            sum3.merge(e, false);
+        });
+    }
+
+    @Test
+    public void testThatDecimalTermDoesntMergeWithVariableTerm() {
+        VariableTerm vt1 = new VariableTerm("x");
+        Sum sum3 = new Sum();
+
+        sum3.addTerm(term);
+        sum3.addTerm(vt1);
+
+        Term e = sum3.findElementAt(0);
+        assertThrows( ExpressionException.class, () -> {
+            sum3.merge(e, false);
+        });
     }
 
 }

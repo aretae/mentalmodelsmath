@@ -36,7 +36,7 @@ public abstract class Term<T> implements Expression {
         negativeCount++;
     }
 
-    protected void setData(T data) {
+    protected void setData(final T data) {
         this.data = data;
     }
 

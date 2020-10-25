@@ -8,11 +8,11 @@ com/l3rnz/algebrain/domain/SumPart.java
  com.l3rnz.algebrain.domain.SumPart
 com/l3rnz/algebrain/domain/Term.java
  com.l3rnz.algebrain.domain.Term
+com/l3rnz/algebrain/domain/VariableTerm.java
+ com.l3rnz.algebrain.domain.VariableTerm
 com/l3rnz/algebrain/domain/IntegerTerm.java
  com.l3rnz.algebrain.domain.IntegerTerm
 com/l3rnz/algebrain/parser/ExpressionParser.java
  com.l3rnz.algebrain.parser.ExpressionParser
 com/l3rnz/algebrain/domain/DecimalTerm.java
  com.l3rnz.algebrain.domain.DecimalTerm
-com/l3rnz/algebrain/domain/VariableTerm.java
- com.l3rnz.algebrain.domain.VariableTerm
