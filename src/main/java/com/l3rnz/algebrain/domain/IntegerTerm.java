@@ -7,21 +7,43 @@ import com.l3rnz.algebrain.exception.ExpressionException;
  * Class to represent a single integer Term including negatives.
  * example: 3, -4, --5, etc.
  */
-public class IntegerTerm extends Term<Integer> {
+public class IntegerTerm extends NumericTerm<Integer> {
+
+    public static final String INTEGER_TERM_REGEX = "^[-]*[0-9]+$";
 
     public IntegerTerm(final Integer data) {
-        if ((double) data >= 0) {
-            this.data = data;
-            negativeCount = 0;
-        } else {
-            this.data = -1 * data;
-            negativeCount = 1;
+        super(data);
+    }
+
+    public IntegerTerm(final String data) {
+        super(data);
+    }
+
+    @Override
+    public Integer convertToType(String data){
+        return Integer.parseInt(data);
+    }
+
+    @Override
+    public void checkDataValidity(String data) {
+        if (!data.matches(INTEGER_TERM_REGEX)) {
+            throw new ExpressionException();
         }
     }
 
     @Override
+    public boolean checkNegative(Integer data) {
+        return (int) data >= 0;
+    }
+
+    @Override
+    public Integer makeNegative(Integer data) {
+        return -1 * data;
+    }
+
+    @Override
     public Integer getValue() {
-        return getNegativeMultiplier() * data.intValue();
+        return getNegativeMultiplier() * getData().intValue();
     }
 
     @Override
@@ -29,13 +51,26 @@ public class IntegerTerm extends Term<Integer> {
         if (ex instanceof IntegerTerm) {
             return new IntegerTerm(getValue() + ((IntegerTerm) ex).getValue());
         } else if (ex instanceof DecimalTerm) {
-            return new DecimalTerm(getValue() + ((DecimalTerm) ex).getValue());
+            DecimalTerm dt = (DecimalTerm) ex;
+            return new DecimalTerm(dt.getSumWith(this));
         } else {
             throw new ExpressionException();
         }
     }
 
-
+    @Override
+    public Term multiplyValue(final Term ex) {
+        if (ex instanceof IntegerTerm) {
+            return new IntegerTerm(getValue() * ((IntegerTerm) ex).getValue());
+        } else if (ex instanceof DecimalTerm) {
+            DecimalTerm dt = (DecimalTerm) ex;
+            return new DecimalTerm(dt.getProductWith(this));
+        } else if (ex instanceof VariableTerm){
+            return ex.multiplyValue(this);
+        } else {
+            throw new ExpressionException();
+        }
+    }
 
 
 }

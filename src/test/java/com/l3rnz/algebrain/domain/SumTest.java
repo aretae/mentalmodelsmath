@@ -45,11 +45,11 @@ public class SumTest {
         term4 = new IntegerTerm(6);
         term5 = new IntegerTerm(-4);
 
-        sum.addTerm(term);
-        sum.addTerm(term2);
+        sum.addExpression(term);
+        sum.addExpression(term2);
 
-        sum2.addTerm(term);
-        sum2.addTerm(term5);
+        sum2.addExpression(term);
+        sum2.addExpression(term5);
 
     }
 
@@ -64,7 +64,7 @@ public class SumTest {
 
     @Test
     public void testThatSumDisplaysThree() {
-        sum.addTerm(term3);
+        sum.addExpression(term3);
         String actual = sum.toString();
         String expected = "3+4+5";
         assertEquals(expected, actual);
@@ -82,9 +82,9 @@ public class SumTest {
     public void testThatSumCanDisplayPlusMinus() {
         IntegerTerm term3 = new IntegerTerm(-5);
         sum = new Sum();
-        sum.addTerm(term);
-        sum.addTerm(term5, true);
-        sum.addTerm(term3, false);
+        sum.addExpression(term);
+        sum.addExpression(term5, true);
+        sum.addExpression(term3, false);
         String actual = sum.toString();
         String expected = "3+-4-5";
         assertEquals(expected, actual);
@@ -94,8 +94,8 @@ public class SumTest {
     public void testThatSumDisplaysDoubleNegative() {
         term5.addNegative();
         sum = new Sum();
-        sum.addTerm(term);
-        sum.addTerm(term5);
+        sum.addExpression(term);
+        sum.addExpression(term5);
         String actual = sum.toString();
         String expected = "3--4";
         assertEquals(expected, actual);
@@ -113,8 +113,8 @@ public class SumTest {
     public void testThatWeCanIdentifyEndElementInSum() {
         term5.addNegative();
         sum = new Sum();
-        sum.addTerm(term);
-        sum.addTerm(term5);
+        sum.addExpression(term);
+        sum.addExpression(term5);
         Expression ex = sum.findElementAt(2);
         String actual = ex.toString();
         String expected = "--4";
@@ -137,7 +137,7 @@ public class SumTest {
 
     @Test
     public void testThatContainsFindsElement() {
-        Term e = sum.findElementAt(0);
+        Expression e = sum.findElementAt(0);
         assertTrue(sum.contains(e));
     }
 
@@ -150,7 +150,7 @@ public class SumTest {
 
     @Test
     public void testThatMoveWorks() {
-        Term e = sum.findElementAt(0);
+        Expression e = sum.findElementAt(0);
         sum.move(e, 2);
         String actual = sum.toString();
         String expected = "4+3";
@@ -161,9 +161,9 @@ public class SumTest {
     public void testThatMoveWorksRightToLeftAndWithNegatives() {
         sum = new Sum();
         term5.addNegative();
-        sum.addTerm(term);
-        sum.addTerm(term5);
-        Term e = sum.findElementAt(3);
+        sum.addExpression(term);
+        sum.addExpression(term5);
+        Expression e = sum.findElementAt(3);
         sum.move(e, 0);
         String actual = sum.toString();
         String expected = "--4+3";
@@ -173,10 +173,10 @@ public class SumTest {
     @Test
     public void testThatAddSumToSumMakesOneSum() {
         sum2 = new Sum();
-        sum2.addTerm(term3);
-        sum2.addTerm(term4);
+        sum2.addExpression(term3);
+        sum2.addExpression(term4);
 
-        sum.addTerm(sum2);
+        sum.addExpression(sum2);
         String actual = sum.toString();
         String expected = "3+4+5+6";
         assertEquals(expected, actual);
@@ -186,18 +186,11 @@ public class SumTest {
     @Test
     public void testThatMergeWorks() {
 
-        Term e = sum.findElementAt(0);
+        Expression e = sum.findElementAt(0);
         Expression newEx = sum.merge(e, false);
         String actual = newEx.toString();
         String expected = "7";
         assertEquals(expected, actual);
-    }
-
-    @Test
-    public void testThatParseIntWorksOnDoubleNegative() {
-        String testCase = "-3";
-        assertEquals(-3, Integer.parseInt(testCase));
-
     }
 
     @Test
@@ -266,10 +259,10 @@ public class SumTest {
         Sum sum3 = new Sum();
 
         dt1.addNegative();
-        sum3.addTerm(dt1);
-        sum3.addTerm(term);
-        sum3.addTerm(dt3);
-        Term e = sum3.findElementAt(5);
+        sum3.addExpression(dt1);
+        sum3.addExpression(term);
+        sum3.addExpression(dt3);
+        Expression e = sum3.findElementAt(5);
         sum3.move(e, 0);
         String actual = sum3.toString();
         String expected = "3--3.2+1.5";
@@ -283,10 +276,10 @@ public class SumTest {
         Sum sum3 = new Sum();
 
         dt1.addNegative();
-        sum3.addTerm(dt1);
-        sum3.addTerm(term);
+        sum3.addExpression(dt1);
+        sum3.addExpression(term);
 
-        Term e = sum3.findElementAt(0);
+        Expression e = sum3.findElementAt(0);
         Expression newEx = sum3.merge(e, false);
         String actual = newEx.toString();
         String expected = "6.2";
@@ -299,10 +292,10 @@ public class SumTest {
         DecimalTerm dt2 = new DecimalTerm(8.8);
         Sum sum3 = new Sum();
 
-        sum3.addTerm(dt1);
-        sum3.addTerm(dt2);
+        sum3.addExpression(dt1);
+        sum3.addExpression(dt2);
 
-        Term e = sum3.findElementAt(0);
+        Expression e = sum3.findElementAt(0);
         Expression newEx = sum3.merge(e, false);
         String actual = newEx.toString();
         String expected = "5.6";
@@ -314,10 +307,10 @@ public class SumTest {
         DecimalTerm dt1 = new DecimalTerm(3.2);
         Sum sum3 = new Sum();
 
-        sum3.addTerm(term);
-        sum3.addTerm(dt1);
+        sum3.addExpression(term);
+        sum3.addExpression(dt1);
 
-        Term e = sum3.findElementAt(0);
+        Expression e = sum3.findElementAt(0);
         Expression newEx = sum3.merge(e, false);
         String actual = newEx.toString();
         String expected = "6.2";
@@ -326,14 +319,14 @@ public class SumTest {
 
     @Test
     public void testThatIntTermDoesntMergeWithVariableTerm() {
-        VariableTerm vt1 = new VariableTerm("x");
+        VariableTerm vt1 = new VariableTerm("X");
         DecimalTerm dt1 = new DecimalTerm(3.2);
         Sum sum3 = new Sum();
 
-        sum3.addTerm(dt1);
-        sum3.addTerm(vt1);
+        sum3.addExpression(dt1);
+        sum3.addExpression(vt1);
 
-        Term e = sum3.findElementAt(0);
+        Expression e = sum3.findElementAt(0);
         assertThrows( ExpressionException.class, () -> {
             sum3.merge(e, false);
         });
@@ -341,13 +334,13 @@ public class SumTest {
 
     @Test
     public void testThatDecimalTermDoesntMergeWithVariableTerm() {
-        VariableTerm vt1 = new VariableTerm("x");
+        VariableTerm vt1 = new VariableTerm("X");
         Sum sum3 = new Sum();
 
-        sum3.addTerm(term);
-        sum3.addTerm(vt1);
+        sum3.addExpression(term);
+        sum3.addExpression(vt1);
 
-        Term e = sum3.findElementAt(0);
+        Expression e = sum3.findElementAt(0);
         assertThrows( ExpressionException.class, () -> {
             sum3.merge(e, false);
         });
@@ -355,14 +348,14 @@ public class SumTest {
 
     @Test
     public void testThatNegativeVariableTermCancelsPositive() {
-        VariableTerm vt1 = new VariableTerm("x");
-        VariableTerm vt2 = new VariableTerm("-x");
+        VariableTerm vt1 = new VariableTerm("X");
+        VariableTerm vt2 = new VariableTerm("-X");
         Sum sum3 = new Sum();
 
-        sum3.addTerm(vt1);
-        sum3.addTerm(vt2);
+        sum3.addExpression(vt1);
+        sum3.addExpression(vt2);
 
-        Term e = sum3.findElementAt(0);
+        Expression e = sum3.findElementAt(0);
         Expression newEx = sum3.merge(e, false);
         String actual = newEx.toString();
         String expected = "0";
@@ -373,20 +366,180 @@ public class SumTest {
     @ParameterizedTest
     @MethodSource("terms")
     public void testThatVariableTermDoesntAddWithStuff(Term t) {
-        VariableTerm vt1 = new VariableTerm("x");
+        VariableTerm vt1 = new VariableTerm("X");
         Sum sum3 = new Sum();
 
-        sum3.addTerm(vt1);
-        sum3.addTerm(t);
+        sum3.addExpression(vt1);
+        sum3.addExpression(t);
 
-        Term e = sum3.findElementAt(0);
+        Expression e = sum3.findElementAt(0);
         assertThrows( ExpressionException.class, () -> {
             sum3.merge(e, false);
-        });
+        }, t.toString());
     }
 
     static Stream<Term> terms() {
-        return Stream.of(new IntegerTerm(3), new DecimalTerm(3.3), new VariableTerm("y"));
+        return Stream.of(new IntegerTerm(3), new DecimalTerm(3.3), new VariableTerm("Y"), new ImplicitProductTerm("2Y"), new ImplicitProductTerm("XY"));
+    }
+
+    @Test
+    public void testThatVariablesAddCorrectly() {
+        VariableTerm vt1 = new VariableTerm("X");
+        VariableTerm vt2 = new VariableTerm("X");
+        Sum sum3 = new Sum();
+
+        sum3.addExpression(vt1);
+        sum3.addExpression(vt2);
+
+        Expression e = sum3.findElementAt(0);
+        Expression newEx = sum3.merge(e, false);
+        String actual = newEx.toString();
+        String expected = "2X";
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testThatNegativeVariablesAddCorrectly() {
+        VariableTerm vt1 = new VariableTerm("-Fred");
+        VariableTerm vt2 = new VariableTerm("-Fred");
+        Sum sum3 = new Sum();
+
+        sum3.addExpression(vt1);
+        sum3.addExpression(vt2);
+
+        Expression e = sum3.findElementAt(0);
+        Expression newEx = sum3.merge(e, false);
+        String actual = newEx.toString();
+        String expected = "-2Fred";
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testThatImplicitVariablesAddCorrectly() {
+        VariableTerm vt1 = new VariableTerm("Fred");
+        ImplicitProductTerm ipt2 = new ImplicitProductTerm("2Fred");
+        Sum sum3 = new Sum();
+
+        sum3.addExpression(vt1);
+        sum3.addExpression(ipt2);
+
+        Expression e = sum3.findElementAt(0);
+        Expression newEx = sum3.merge(e, false);
+        String actual = newEx.toString();
+        String expected = "3Fred";
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testThatImplicitVariableDoublesAddCorrectly() {
+        VariableTerm vt1 = new VariableTerm("Pi");
+        ImplicitProductTerm ipt2 = new ImplicitProductTerm("-4.14Pi");
+        Sum sum3 = new Sum();
+
+        sum3.addExpression(vt1);
+        sum3.addExpression(ipt2);
+
+        Expression e = sum3.findElementAt(0);
+        Expression newEx = sum3.merge(e, false);
+        String actual = newEx.toString();
+        String expected = "-3.14Pi";
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testThatImplicitVariablesAddWhenMatching() {
+        ImplicitProductTerm ipt1 = new ImplicitProductTerm("2Y");
+        ImplicitProductTerm ipt2 = new ImplicitProductTerm("-4Y");
+        Sum sum3 = new Sum();
+
+        sum3.addExpression(ipt1);
+        sum3.addExpression(ipt2);
+
+        Expression e = sum3.findElementAt(0);
+        Expression newEx = sum3.merge(e, false);
+        String actual = newEx.toString();
+        String expected = "-2Y";
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testThatImplicitVariablesAddDoublesWhenMatching() {
+        ImplicitProductTerm ipt1 = new ImplicitProductTerm("2.3Y");
+        ImplicitProductTerm ipt2 = new ImplicitProductTerm("-3.2Y");
+        Sum sum3 = new Sum();
+
+        sum3.addExpression(ipt1);
+        sum3.addExpression(ipt2);
+
+        Expression e = sum3.findElementAt(0);
+        Expression newEx = sum3.merge(e, false);
+        String actual = newEx.toString();
+        String expected = "-0.9Y";
+        assertEquals(expected, actual);
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = {"2XZ", "2X", "2XYZ"}) //
+    public void testThatIncompatibleImplicitVariableTermsDontAdd(String s) {
+        ImplicitProductTerm ipt1 = new ImplicitProductTerm("2XY");
+        ImplicitProductTerm ipt2 = new ImplicitProductTerm(s);
+        Sum sum3 = new Sum();
+
+        sum3.addExpression(ipt1);
+        sum3.addExpression(ipt2);
+
+        Expression e = sum3.findElementAt(0);
+        assertThrows( ExpressionException.class, () -> {
+            sum3.merge(e, false);
+        }, s);
+    }
+
+    @Test
+    public void testThatImplicitVariablesAddDoubleVarsWhenMatching() {
+        ImplicitProductTerm ipt1 = new ImplicitProductTerm("2XY");
+        ImplicitProductTerm ipt2 = new ImplicitProductTerm("3XY");
+        Sum sum3 = new Sum();
+
+        sum3.addExpression(ipt1);
+        sum3.addExpression(ipt2);
+
+        Expression e = sum3.findElementAt(0);
+        Expression newEx = sum3.merge(e, false);
+        String actual = newEx.toString();
+        String expected = "5XY";
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testThatImplicitVariablesAddToZero() {
+        ImplicitProductTerm ipt1 = new ImplicitProductTerm("2XY");
+        ImplicitProductTerm ipt2 = new ImplicitProductTerm("-2XY");
+        Sum sum3 = new Sum();
+
+        sum3.addExpression(ipt1);
+        sum3.addExpression(ipt2);
+
+        Expression e = sum3.findElementAt(0);
+        Expression newEx = sum3.merge(e, false);
+        String actual = newEx.toString();
+        String expected = "0";
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testThatImplicitVariablesDoublesAddToZero() {
+        ImplicitProductTerm ipt1 = new ImplicitProductTerm("2.2XY");
+        ImplicitProductTerm ipt2 = new ImplicitProductTerm("-2.2XY");
+        Sum sum3 = new Sum();
+
+        sum3.addExpression(ipt1);
+        sum3.addExpression(ipt2);
+
+        Expression e = sum3.findElementAt(0);
+        Expression newEx = sum3.merge(e, false);
+        String actual = newEx.toString();
+        String expected = "0";
+        assertEquals(expected, actual);
     }
 
 }

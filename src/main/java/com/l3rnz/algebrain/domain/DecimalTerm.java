@@ -4,29 +4,54 @@ import com.l3rnz.algebrain.exception.ExpressionException;
 
 import java.math.BigDecimal;
 
+
 /**
  * Terms that handle Decimals.
  */
-public class DecimalTerm extends Term<Double> {
+public class DecimalTerm extends NumericTerm<Double> {
+
+    public static final String DECIMAL_TERM_REGEX = "^[-]*[0-9]+\\.[0-9]+$";
+
     public DecimalTerm(final Double data) {
-        if (data >= 0) {
-            this.data = data;
-            negativeCount = 0;
-        } else {
-            this.data = -1 * data;
-            negativeCount = 1;
+        super(data);
+    }
+
+    public DecimalTerm(final String data) {
+        super(data);
+
+    }
+
+    @Override
+    public Double convertToType(String data){
+        return Double.parseDouble(data);
+    }
+
+    @Override
+    public void checkDataValidity(String data) {
+        if (!data.matches(DECIMAL_TERM_REGEX)) {
+            throw new ExpressionException();
         }
     }
 
     @Override
+    public boolean checkNegative(Double data) {
+        return (double) data >= 0;
+    }
+
+    @Override
+    public Double makeNegative(Double data) {
+        return -1 * data;
+    }
+
+    @Override
     public Double getValue() {
-        return getNegativeMultiplier() * data.doubleValue();
+        return getNegativeMultiplier() * getData().doubleValue();
     }
 
     @Override
     public Term addValue(final Term ex) {
         if (ex instanceof IntegerTerm) {
-            return new DecimalTerm(getValue() + ((IntegerTerm) ex).getValue());
+            return new DecimalTerm(getSumWith((IntegerTerm) ex));
         } else if (ex instanceof DecimalTerm) {
             return new DecimalTerm(getSumWith((DecimalTerm) ex));
         } else {
@@ -34,9 +59,28 @@ public class DecimalTerm extends Term<Double> {
         }
     }
 
-    private double getSumWith(final DecimalTerm ex) {
-        final BigDecimal dec1 = new BigDecimal(this.toString());
-        final BigDecimal dec2 = new BigDecimal(ex.toString());
+    @Override
+    public Term multiplyValue(final Term ex) {
+        if (ex instanceof IntegerTerm) {
+            return new DecimalTerm(getProductWith((IntegerTerm) ex));
+        } else if (ex instanceof DecimalTerm) {
+            return new DecimalTerm(getProductWith((DecimalTerm) ex));
+        } else if (ex instanceof VariableTerm) {
+            return ex.multiplyValue(this);
+        } else {
+            throw new ExpressionException();
+        }
+    }
+
+    public double getProductWith(final NumericTerm ex) {
+        final BigDecimal dec1 = getBigDecimal();
+        final BigDecimal dec2 = ex.getBigDecimal();
+        return dec1.multiply(dec2).doubleValue();
+    }
+
+    public double getSumWith(final NumericTerm ex) {
+        final BigDecimal dec1 = getBigDecimal();
+        final BigDecimal dec2 = ex.getBigDecimal();
         return dec1.add(dec2).doubleValue();
     }
 }

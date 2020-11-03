@@ -13,53 +13,55 @@ import java.util.Map;
  */
 public class ExpressionParser {
 
-    public static final char MINUS = '-';
-    public Term parseTerm(final String input) {
-        final int numberOfNegatives = calculateNumberOfNegatives(input);
-        final String adjustedInput = input.substring(numberOfNegatives);
-        final Term term = processTermWithoutNegatives(adjustedInput);
-        addNegatives(term, numberOfNegatives);
-        return term;
-    }
-
-    private void addNegatives(final Term term, final int numberOfNegatives) {
-        for (int i = 0; i < numberOfNegatives; i++) {
-            term.addNegative();
+    public Expression parseAddend(final String input) {
+        if (input.contains("*")) {
+            return parseProduct(input);
+        } else {
+            return parseTerm(input);
         }
     }
 
-    private Term processTermWithoutNegatives(final String adjustedInput) {
+    private Expression parseTerm(String input) {
         Term term = null;
-        if (adjustedInput.matches("^[0-9]+$")) {
-            term = new IntegerTerm(Integer.parseInt(adjustedInput));
+        if (input.matches(IntegerTerm.INTEGER_TERM_REGEX)) {
+            term = new IntegerTerm(input);
         }
-        if (adjustedInput.matches("^[0-9]+\\.[0-9]+$")) {
-            term = new DecimalTerm(Double.parseDouble(adjustedInput));
+        if (input.matches(DecimalTerm.DECIMAL_TERM_REGEX)) {
+            term = new DecimalTerm(input);
         }
-        if (!adjustedInput.matches("^[0-9]+\\.?[0-9]*$")) {
+        if (input.matches(VariableTerm.VARIABLE_TERM_REGEX)) {
+            term = new VariableTerm(input);
+        }
+        if (input.matches(ImplicitProductTerm.IMPLICIT_PRODUCT_TERM_REGEX)) {
+            term = new ImplicitProductTerm(input);
+        }
+        if (term == null) {
             throw new ExpressionException();
         }
         return term;
     }
 
-    private int calculateNumberOfNegatives(final String input) {
-        int numberOfNegatives = 0;
-        for (int index = 0; index < input.length(); index++) {
-            if (input.charAt(index) == MINUS) {
-                numberOfNegatives++;
-            }
+
+
+    public Product parseProduct(final String input) {
+        Product product = new Product();
+        String [] parts = input.split("\\*");
+        for (String part: parts) {
+            Expression e = parseTerm(part);
+            product.addExpression(e);
         }
-        return numberOfNegatives;
+        return product;
     }
+
 
     public Expression parse(final String input) {
         final List<Map.Entry<String, Boolean>> parts = splitSum(input);
         if (parts.size() == 1) {
-            return parseTerm(input);
+            return parseAddend(input);
         } else {
             final Sum sum = new Sum();
             for (Map.Entry<String, Boolean> sub: parts) {
-                sum.addTerm(parseTerm(sub.getKey()), sub.getValue());
+                sum.addExpression(parseAddend(sub.getKey()), sub.getValue());
             }
             return sum;
         }
@@ -125,7 +127,11 @@ public class ExpressionParser {
     }
 
     private boolean isSubtractOperation(final char currentCharacter, final char priorCharacter) {
-        return currentCharacter == '-' && priorCharacter != '+' && priorCharacter != '-';
+        return currentCharacter == '-' && isOperator(priorCharacter);
+    }
+
+    private boolean isOperator(char priorCharacter) {
+        return !("+-*/".contains(priorCharacter+""));
     }
 
     private boolean isAddOperation(final char currentCharacter) {
@@ -139,5 +145,4 @@ public class ExpressionParser {
         sumParts.add(pair);
         builder.delete(0, builder.length());
     }
-
 }

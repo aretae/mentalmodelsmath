@@ -2,6 +2,8 @@ package com.l3rnz.algebrain.domain;
 
 import com.l3rnz.algebrain.exception.ExpressionException;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -73,7 +75,7 @@ public class TermTest {
 
     @Test
     public void testVariableTermWorks() {
-        String input = "x";
+        String input = "X";
         VariableTerm term = new VariableTerm(input);
         String actual = term.toString();
         assertEquals(input, actual);
@@ -109,5 +111,150 @@ public class TermTest {
         boolean actual = term.isNegative();
         assertTrue(actual);
         assertEquals(3, term.getNegativeCount());
+    }
+
+    @Test
+    public void testThatVariableTermThrowsExceptionWithBadCaps() {
+        assertThrows(ExpressionException.class, () -> {
+            new VariableTerm("xyz");
+        });
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings= {"3X", "3Abba", "3XY", "2.2B", "3.14PiAreSquared"})
+    public void testThatImplicitProductTermWorks(String input) {
+        ImplicitProductTerm term = new ImplicitProductTerm(input);
+        String actual = term.toString();
+        assertEquals(input, actual);
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings= {"X", "X2", "3x", "3X3", "3xAba", "3.1.1A", ".11Abc"})
+    public void testThatImplicitProductOnlyAllowsNumbersFirst(String data) {
+        assertThrows(ExpressionException.class, () -> {
+           new ImplicitProductTerm(data);
+        }, data);
+    }
+
+    @Test
+    public void testThatSimpleProductConvertsToImplicitProduct() {
+        String expected = "3X";
+
+        Product product = new Product();
+        Expression expression = new IntegerTerm(3);
+        Expression expression1 = new VariableTerm("X");
+        product.addExpression(expression);
+        product.addExpression(expression1);
+
+        ImplicitProductTerm term = new ImplicitProductTerm(product);
+        String actual = term.toString();
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testThatNegativeSimpleProductConvertsToImplicitProduct() {
+        String expected = "-3X";
+
+        Product product = new Product();
+        Expression expression = new IntegerTerm(-3);
+        Expression expression1 = new VariableTerm("X");
+        product.addExpression(expression);
+        product.addExpression(expression1);
+
+        ImplicitProductTerm term = new ImplicitProductTerm(product);
+        String actual = term.toString();
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testThatBackwardsNegativeProductConvertsToImplicitProduct() {
+        String expected = "-3X";
+
+        Product product = new Product();
+        Expression expression = new IntegerTerm(3);
+        Expression expression1 = new VariableTerm("-X");
+        product.addExpression(expression);
+        product.addExpression(expression1);
+
+        ImplicitProductTerm term = new ImplicitProductTerm(product);
+        String actual = term.toString();
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testThatComplexNegativesWorkWithImplicitProduct() {
+        String expected = "3XY";
+
+        Product product = new Product();
+        Expression expression = new IntegerTerm(-3);
+        Expression expression1 = new VariableTerm("---X");
+        Expression expression2 = new VariableTerm("--Y");
+        product.addExpression(expression);
+        product.addExpression(expression1);
+        product.addExpression(expression2);
+
+        ImplicitProductTerm term = new ImplicitProductTerm(product);
+        String actual = term.toString();
+
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testThatIntegerTermWorkswithGoodString() {
+        String expected = "3";
+        IntegerTerm term = new IntegerTerm(expected);
+        String actual = term.toString();
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testThatDecimalTermWorkswithGoodString() {
+        String expected = "3.3";
+        DecimalTerm term = new DecimalTerm(expected);
+        String actual = term.toString();
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testThatIntegerTermWorkswithGoodNegativeString() {
+        String expected = "-3";
+        IntegerTerm term = new IntegerTerm(expected);
+        String actual = term.toString();
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testThatDecimalTermWorkswithGoodNegativeString() {
+        String expected = "-3.3";
+        DecimalTerm term = new DecimalTerm(expected);
+        String actual = term.toString();
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testThatIntegerTermWorkswithDoubleNegativeString() {
+        String expected = "--3";
+        IntegerTerm term = new IntegerTerm(expected);
+        String actual = term.toString();
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testThatDecimalTermWorkswithMultipleNegativeString() {
+        String expected = "---3.3";
+        DecimalTerm term = new DecimalTerm(expected);
+        String actual = term.toString();
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testThatImplicitVariableTermWorkswithMultipleNegativeString() {
+        String expected = "---3.3";
+        DecimalTerm term = new DecimalTerm(expected);
+        String actual = term.toString();
+        assertEquals(expected, actual);
     }
 }

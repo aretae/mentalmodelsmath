@@ -4,46 +4,33 @@ package com.l3rnz.algebrain.domain;
 /**
  * One element of a Sum.
  */
-public class SumPart {
+public class SumPart extends IndefiniteSizeExpressionPart {
 
-    private final Term term;
     private final boolean explicit;
 
-    public SumPart(final Term t) {
-        term = t;
-        explicit = false;
+    public SumPart(final Expression t) {
+        this(t,false);
     }
 
-    public SumPart(final Term t, final boolean e) {
-        term = t;
+    public SumPart(final Expression t, final boolean e) {
+        super(t);
         explicit = e;
     }
 
     public SumPart(final SumPart part) {
+        super(part);
         this.explicit = part.explicit;
-        this.term = part.term;
     }
+
 
     @Override
-    public String toString() {
-        return term.toString();
-    }
-
-    public boolean displayPlus() {
-        return explicit || (!term.isNegative());
+    public boolean displayOperator() {
+        return explicit || (term instanceof Term && !((Term)term).isNegative());
     }
 
 
-    public Term getContainedExpression() {
-        return term;
-    }
-
-    public boolean contains(final Term e) {
-        return e.equals(term);
-    }
-
+    @Override
     public SumPart duplicate() {
         return new SumPart(term, explicit);
     }
-
 }

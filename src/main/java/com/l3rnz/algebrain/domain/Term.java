@@ -3,12 +3,22 @@ package com.l3rnz.algebrain.domain;
 /**
  * Term is a single-valued part of an equation that arithmetic can work on.
  *
- * @param <T>  What kind of term: Integer, Double
+ * @param <T>  What kind of term: Integer, Double, String
  */
 public abstract class Term<T> implements Expression {
 
     protected int negativeCount;
-    protected T data;
+    private T data;
+
+    public Term() {
+        //Empty for subclasses
+    }
+
+    public Term(final String data) {
+        checkDataValidity(data);
+        setNegatives(data);
+        setData(convertToType(stripNegatives(data)));
+    }
 
     @Override
     public String toString() {
@@ -42,5 +52,33 @@ public abstract class Term<T> implements Expression {
 
     public int getNegativeCount() {
         return negativeCount;
+    }
+
+    public T getData() {
+        return data;
+    }
+
+    public abstract Term multiplyValue(Term ex);
+
+    void resetNegatives() {
+        this.negativeCount = 0;
+    }
+
+    public abstract T convertToType(String data);
+
+    public abstract void checkDataValidity(String data);
+
+    public String stripNegatives(String data) {
+        return data.replace('-',' ').trim();
+    }
+
+    public void setNegatives(final String data) {
+        for (char datum: data.toCharArray()) {
+            if (datum == '-') {
+                addNegative();
+            } else {
+                break;
+            }
+        }
     }
 }
