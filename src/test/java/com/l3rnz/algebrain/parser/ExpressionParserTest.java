@@ -15,7 +15,7 @@ public class ExpressionParserTest {
         {
           "3", "-23", "2+3", "2+3+4", "2+-3", "2+-3+-4", "2.3", "-2.3+-5+3.7+-2.8", "4-3", "--3"
           , "X", "-X", "3-X", "4.3+2--Bob", "3*2", "-3*X", "--4*--2.2*-Bob", "3+4*5", "-32*3.1415-35*152*--X+Bob"
-          , "3X", "3XY", "-2.2Bob", "---3.5IsHalfOfSeven"
+          , "3X", "3XY", "-2.2Bob", "---3.5IsHalfOfSeven", "XYBob"
         })
     public void testThatParserParsesIntoEquationThatRendersSame(String input) {
         ExpressionParser parser = new ExpressionParser();

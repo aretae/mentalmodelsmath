@@ -40,7 +40,7 @@ public abstract class Term<T> implements Expression {
         return negativeCount % 2 != 0 ? -1 : 1;
     }
 
-    public abstract T getValue();
+//    public abstract T getValue();
 
     public void addNegative() {
         negativeCount++;

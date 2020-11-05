@@ -30,20 +30,12 @@ public class TermTest {
     }
 
     @Test
-    public void testThatGetValueShowsRightValue() {
-        IntegerTerm term = new IntegerTerm(-1);
-        int actual = term.getValue();
-        int expected = -1;
-        assertEquals(expected, actual);
-    }
-
-    @Test
     public void testThatGetValueShowsRightValueWithSeveralNegatives() {
         IntegerTerm term = new IntegerTerm(-1);
         term.addNegative();
         term.addNegative();
         term.addNegative();
-        int actual = term.getValue();
+        int actual = term.getData();
         int expected = 1;
         assertEquals(expected, actual);
         String actualText = term.toString();
@@ -65,7 +57,7 @@ public class TermTest {
         term.addNegative();
         term.addNegative();
         term.addNegative();
-        double actual = term.getValue();
+        double actual = term.getData();
         double expected = 1.5;
         assertEquals(expected, actual);
         String actualText = term.toString();

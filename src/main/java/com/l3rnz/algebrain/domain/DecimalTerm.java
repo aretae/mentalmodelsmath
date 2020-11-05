@@ -44,11 +44,6 @@ public class DecimalTerm extends NumericTerm<Double> {
     }
 
     @Override
-    public Double getValue() {
-        return getNegativeMultiplier() * getData().doubleValue();
-    }
-
-    @Override
     public Term addValue(final Term ex) {
         if (ex instanceof IntegerTerm) {
             return new DecimalTerm(getSumWith((IntegerTerm) ex));

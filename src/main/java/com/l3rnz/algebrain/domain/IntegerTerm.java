@@ -42,14 +42,9 @@ public class IntegerTerm extends NumericTerm<Integer> {
     }
 
     @Override
-    public Integer getValue() {
-        return getNegativeMultiplier() * getData().intValue();
-    }
-
-    @Override
     public Term addValue(final Term ex) {
         if (ex instanceof IntegerTerm) {
-            return new IntegerTerm(getValue() + ((IntegerTerm) ex).getValue());
+            return new IntegerTerm(getData() + ((IntegerTerm) ex).getData());
         } else if (ex instanceof DecimalTerm) {
             DecimalTerm dt = (DecimalTerm) ex;
             return new DecimalTerm(dt.getSumWith(this));
@@ -61,7 +56,7 @@ public class IntegerTerm extends NumericTerm<Integer> {
     @Override
     public Term multiplyValue(final Term ex) {
         if (ex instanceof IntegerTerm) {
-            return new IntegerTerm(getValue() * ((IntegerTerm) ex).getValue());
+            return new IntegerTerm(getData() * ((IntegerTerm) ex).getData());
         } else if (ex instanceof DecimalTerm) {
             DecimalTerm dt = (DecimalTerm) ex;
             return new DecimalTerm(dt.getProductWith(this));

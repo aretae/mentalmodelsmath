@@ -80,11 +80,6 @@ public class VariableTerm extends Term<String> {
     }
 
     @Override
-    public String getValue() {
-        return null;
-    }
-
-    @Override
     public Term multiplyValue(Term ex) {
         Term term2 = handleMultiplyByIdentity(ex);
         if (term2 == null) {
@@ -136,7 +131,7 @@ public class VariableTerm extends Term<String> {
     boolean checkForMultiplyByZero(Term ex) {
         if ("0".equals(ex.toString())) {
             return true;
-        } else if (ex instanceof DecimalTerm && ((DecimalTerm) ex).getValue() == 0) {
+        } else if (ex instanceof DecimalTerm && ((DecimalTerm) ex).getData() == 0) {
             return true;
         }
         return false;

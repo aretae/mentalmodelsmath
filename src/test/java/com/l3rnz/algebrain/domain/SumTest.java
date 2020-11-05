@@ -542,4 +542,37 @@ public class SumTest {
         assertEquals(expected, actual);
     }
 
+    @Test
+    public void testThatImplicitVariablesAddWithAndWithoutCoefficients() {
+        ImplicitProductTerm ipt1 = new ImplicitProductTerm("XY");
+        ImplicitProductTerm ipt2 = new ImplicitProductTerm("2XY");
+        Sum sum3 = new Sum();
+
+        sum3.addExpression(ipt1);
+        sum3.addExpression(ipt2);
+
+        Expression e = sum3.findElementAt(0);
+        Expression newEx = sum3.merge(e, false);
+        String actual = newEx.toString();
+        String expected = "3XY";
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testThatImplicitVariablesAddWithAndWithoutCoefficientsAndNegatives() {
+        ImplicitProductTerm ipt1 = new ImplicitProductTerm("-XY");
+        ImplicitProductTerm ipt2 = new ImplicitProductTerm("2XY");
+        Sum sum3 = new Sum();
+
+        sum3.addExpression(ipt1);
+        sum3.addExpression(ipt2);
+
+        Expression e = sum3.findElementAt(0);
+        Expression newEx = sum3.merge(e, false);
+        String actual = newEx.toString();
+        String expected = "XY";
+        assertEquals(expected, actual);
+    }
+
+
 }

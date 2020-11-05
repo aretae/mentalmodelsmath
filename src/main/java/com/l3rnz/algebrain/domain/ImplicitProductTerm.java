@@ -8,57 +8,51 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ImplicitProductTerm extends Term<String> {
+public class ImplicitProductTerm extends Term<List<Expression>> {
 
     public static final String IMPLICIT_PRODUCT_TERM_REGEX = "^[-]*(([0-9]+([.][0-9]+)?)|([A-Z][a-z]*))([A-Z][a-z]*)+$";
-    private NumericTerm coefficient;
-    private List<ProductPart> variables;
 
-    public ImplicitProductTerm(String input) {
-        variables = new ArrayList<>();
-        checkDataValidity(input);
-        setNegatives(input);
-        setData(input);
-        processNegatives();
+    public ImplicitProductTerm(final String input) {
+        super(input);
     }
 
     public ImplicitProductTerm(Product inputProduct) {
-        variables = new ArrayList<>();
+        List<Expression> variables = new ArrayList<>();
         for (IndefiniteSizeExpressionPart term : inputProduct.terms) {
             ProductPart pPart = (ProductPart) term;
-            if (term.getContainedExpression() instanceof NumericTerm) {
-                coefficient = (NumericTerm) pPart.getContainedExpression();
+            Expression expression = pPart.getContainedExpression();
+            if (expression instanceof NumericTerm) {
+                variables.add(0, expression);
             } else {
-                variables.add(pPart);
+                variables.add(expression);
             }
         }
-        if (coefficient == null) {
-            coefficient = new IntegerTerm(1);
+        if (!(variables.get(0) instanceof NumericTerm)) {
+            variables.add(0, new IntegerTerm(1));
         }
+        setData(variables);
         processNegatives();
     }
 
     private void processNegatives() {
-        boolean swapNegative = countAndStripNegatives();
-        if (swapNegative) {
-            coefficient.addNegative();
+        if (checkForAndStripNegatives()) {
+            addNegative();
         }
     }
 
-    private boolean countAndStripNegatives() {
+    private boolean checkForAndStripNegatives() {
         boolean swapNegative = false;
         Term term = null;
-        for (ProductPart part : variables) {
-            term = (Term) (part.getContainedExpression());
+        for (Expression part: getData()) {
+            if (!(part instanceof Term)) {
+                continue;
+            }
+            term = (Term) (part);
             if (term.getNegativeCount() % 2 == 1) {
                 swapNegative = !swapNegative;
             }
             term.resetNegatives();
         }
-        if (coefficient.getNegativeCount() % 2 == 1) {
-            swapNegative = !swapNegative;
-        }
-        coefficient.resetNegatives();
         return swapNegative;
     }
 
@@ -70,40 +64,38 @@ public class ImplicitProductTerm extends Term<String> {
     }
 
     @Override
-    public String convertToType(String data) {
-        return null;
+    public List<Expression> convertToType(final String input) {
+        List<Expression> data = new ArrayList<>();
+        processNumberTermFromString(input, data);
+        processVariablesFromString(input, data);
+        return data;
     }
 
-    public void setData(final String data) {
-        processNumberTermFromString(data);
-        processVariablesFromString(data);
-    }
-
-    void processVariablesFromString(final String data) {
-        Matcher matcher = Pattern.compile("([A-Z][a-z]*)").matcher(data);
+    void processVariablesFromString(final String input, List<Expression> data) {
+        Matcher matcher = Pattern.compile("([A-Z][a-z]*)").matcher(input);
         while (matcher.find()) {
-            variables.add(new ProductPart(new VariableTerm(matcher.group(0))));
+            data.add(new VariableTerm(matcher.group(0)));
         }
     }
 
-    void processNumberTermFromString(final String data) {
-        Matcher matcher = Pattern.compile("([-]*[0-9]+([.][0-9]+)?)").matcher(data);
+    void processNumberTermFromString(final String input, List<Expression> data) {
+        Matcher matcher = Pattern.compile("([-]*[0-9]+([.][0-9]+)?)").matcher(input);
         if (matcher.find()) {
             String numberSubstring = matcher.group(0);
             if (numberSubstring.indexOf('.') > 0) {
-                coefficient = new DecimalTerm(Double.parseDouble(numberSubstring));
+                data.add(0,new DecimalTerm(Double.parseDouble(numberSubstring)));
             } else {
-                coefficient = new IntegerTerm(Integer.parseInt(numberSubstring));
+                data.add(0,new IntegerTerm(Integer.parseInt(numberSubstring)));
             }
         } else {
-            coefficient = new IntegerTerm(1);
+            data.add(0,new IntegerTerm(1));
         }
     }
 
     @Override
     public Term addValue(Term ex) {
         Term returnTerm = null;
-        if (checkAddability(ex)) {
+        if (checkForAddableVariableTerm(ex)) {
             VariableTerm variableTerm = (VariableTerm) ex;
             returnTerm = addWithoutChecks(variableTerm);
         } else if (ex instanceof ImplicitProductTerm) {
@@ -117,21 +109,21 @@ public class ImplicitProductTerm extends Term<String> {
 
     Term addWithoutChecks(VariableTerm ex) {
         Term returnTerm;
-        if (coefficient instanceof IntegerTerm) {
-            int newCoefficient = ((IntegerTerm) coefficient).getValue() + 1;
+        if (getData().get(0) instanceof IntegerTerm) {
+            int newCoefficient = ((IntegerTerm) getData().get(0)).getData() * getNegativeMultiplier() + 1;
             returnTerm = new ImplicitProductTerm("" + newCoefficient + ex.getData());
         } else {
-            BigDecimal coeffCal = new BigDecimal(coefficient.toString());
+            BigDecimal coeffCal = new BigDecimal(getData().get(0).toString()).multiply(new BigDecimal(getNegativeMultiplier()));
             BigDecimal result = coeffCal.add(new BigDecimal(1));
             returnTerm = new ImplicitProductTerm("" + result.toString() + ex.getData());
         }
         return returnTerm;
     }
 
-    boolean checkAddability(Term ex) {
+    boolean checkForAddableVariableTerm(Term ex) {
         return ex instanceof VariableTerm
-                && variables.size() == 1
-                && variables.get(0).getContainedExpression().toString().equals((ex.getData()));
+                && getData().size() == 2
+                && getData().get(1).toString().equals((ex.getData()));
     }
 
     Term addWithoutChecks(ImplicitProductTerm otherTerm) {
@@ -140,7 +132,7 @@ public class ImplicitProductTerm extends Term<String> {
             throw new ExpressionException();
         }
         Term term = buildNumberPart(otherTerm);
-        if (Double.parseDouble(term.toString())==0) {
+        if (Double.parseDouble(term.toString()) == 0) {
             returnTerm = new IntegerTerm(0);
         } else {
             returnTerm = new ImplicitProductTerm(buildString(otherTerm, term));
@@ -150,7 +142,7 @@ public class ImplicitProductTerm extends Term<String> {
 
     private Term buildNumberPart(ImplicitProductTerm otherTerm) {
         Term term = null;
-        if (coefficient instanceof IntegerTerm && otherTerm.coefficient instanceof IntegerTerm) {
+        if (getData().get(0) instanceof IntegerTerm && otherTerm.getData().get(0)instanceof IntegerTerm) {
             term = buildIntegerCoefficient(otherTerm);
         } else {
             term = buildDecimalCoefficient(otherTerm);
@@ -159,12 +151,16 @@ public class ImplicitProductTerm extends Term<String> {
     }
 
     IntegerTerm buildIntegerCoefficient(ImplicitProductTerm otherTerm) {
-        return new IntegerTerm(addIntegerCoefficients(otherTerm));
+
+        int thisTermValue = ((IntegerTerm) getData().get(0)).getData() * getNegativeMultiplier();
+        int otherTermValue = ((IntegerTerm) otherTerm.getData().get(0)).getData() * otherTerm.getNegativeMultiplier();
+        return new IntegerTerm(thisTermValue + otherTermValue);
     }
 
     DecimalTerm buildDecimalCoefficient(ImplicitProductTerm otherTerm) {
-        BigDecimal coeffCal = new BigDecimal(coefficient.toString());
-        BigDecimal result = coeffCal.add(new BigDecimal(otherTerm.coefficient.toString()));
+        BigDecimal thisDecimal = new BigDecimal((getNegativeMultiplier() > 0 ? "" : "-") + getData().get(0).toString());
+        BigDecimal otherDecimal = new BigDecimal((otherTerm.getNegativeMultiplier() > 0 ? "" : "-") + otherTerm.getData().get(0).toString());
+        BigDecimal result = thisDecimal.add(otherDecimal);
         String output = result.toString();
         return new DecimalTerm(output);
     }
@@ -172,24 +168,23 @@ public class ImplicitProductTerm extends Term<String> {
     String buildString(Term ex, Term newCoefficient) {
         StringBuilder builder = new StringBuilder();
         builder.append(newCoefficient.toString());
-        for (ProductPart part : variables) {
-            builder.append(part.getContainedExpression().toString());
+        for (int i = 1; i< getData().size(); i++) {
+            Expression part = getData().get(i);
+            builder.append(part.toString());
         }
         return builder.toString();
     }
 
-    int addIntegerCoefficients(ImplicitProductTerm otherTerm) {
-        return ((IntegerTerm) coefficient).getValue() + ((IntegerTerm) otherTerm.coefficient).getValue();
-    }
-
     private boolean allVariablesMatch(ImplicitProductTerm otherTerm) {
-        if (variables.size() != otherTerm.variables.size()) {
+        if (getData().size() != otherTerm.getData().size()) {
             return false;
         }
         LOOP1:
-        for (ProductPart part : variables) {
-            for (ProductPart part2 : otherTerm.variables) {
-                if (part.toString().equals(part2.toString())) {
+        for (int i = 1; i< getData().size(); i++) {
+            Expression expression =getData().get(i);
+            for (int j = 1; j< otherTerm.getData().size(); j++) {
+                Expression expression2 =otherTerm.getData().get(i);
+                if (expression.toString().equals(expression2.toString())) {
                     continue LOOP1;
                 }
             }
@@ -199,32 +194,21 @@ public class ImplicitProductTerm extends Term<String> {
     }
 
     @Override
-    public String getValue() {
-        return getData();
-    }
-
-    @Override
     public Term multiplyValue(Term ex) {
         return null;
     }
 
 
-
-
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        addCoefficientProperly(builder);
-        for (ProductPart term : variables) {
-            builder.append(term.toString());
+        for (int i = 0; i < negativeCount; i++) {
+            builder.append("-");
+        }
+        for (Expression term : getData()) {
+            if (!("1".equals(term.toString()))) {
+                builder.append(term.toString());
+            }
         }
         return builder.toString();
-    }
-
-    void addCoefficientProperly(StringBuilder builder) {
-        if (("-1").equals(coefficient.toString())) {
-            builder.append("-");
-        } else if (!"1".equals(coefficient.toString())) {
-            builder.append(coefficient.toString());
-        }
     }
 }
