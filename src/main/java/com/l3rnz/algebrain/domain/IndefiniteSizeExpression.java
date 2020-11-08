@@ -15,24 +15,24 @@ public abstract class IndefiniteSizeExpression implements Expression {
         terms = new ArrayList<>();
     }
 
+    public abstract boolean checkForDecomposableType(Expression expression);
+
+    public abstract IndefiniteSizeExpressionPart convertToExpressionPart(Term iTerm);
+
     public void addExpression(final Expression expression) {
         if (checkForDecomposableType(expression)) {
             final Term iTerm = (Term) expression;
             addExpression(iTerm);
         } else {
-            for (IndefiniteSizeExpressionPart part: ((IndefiniteSizeExpression) expression).terms) {
+            for (IndefiniteSizeExpressionPart part : ((IndefiniteSizeExpression) expression).terms) {
                 terms.add(part.duplicate());
             }
         }
     }
 
-    public abstract boolean checkForDecomposableType(Expression expression);
-
     private void addExpression(final Term iTerm) {
         terms.add(convertToExpressionPart(iTerm));
     }
-
-    public abstract IndefiniteSizeExpressionPart convertToExpressionPart(Term iTerm);
 
     public void addExpression(final Expression term, final boolean explicit) {
         terms.add(new SumPart(term, explicit));
@@ -57,7 +57,7 @@ public abstract class IndefiniteSizeExpression implements Expression {
             throw new ExpressionException();
         }
         int currentSize = 0;
-        for (IndefiniteSizeExpressionPart part: terms) {
+        for (IndefiniteSizeExpressionPart part : terms) {
             currentSize += part.toString().length();
             if (i < currentSize) {
                 return part.getContainedExpression();
@@ -86,7 +86,7 @@ public abstract class IndefiniteSizeExpression implements Expression {
             throw new ExpressionException();
         }
         IndefiniteSizeExpressionPart thePart = null;
-        for (IndefiniteSizeExpressionPart part: terms) {
+        for (IndefiniteSizeExpressionPart part : terms) {
             if (part.contains(e)) {
                 thePart = part;
             }

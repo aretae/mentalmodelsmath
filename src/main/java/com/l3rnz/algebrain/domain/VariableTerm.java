@@ -12,8 +12,6 @@ public class VariableTerm extends Term<String> {
 
     public VariableTerm(final String data) {
         super(data);
-//        handleBadData(data);
-//        separateDataAndNegatives(data);
     }
 
     @Override
@@ -62,7 +60,7 @@ public class VariableTerm extends Term<String> {
                 case 2:
                     returnValue = new ImplicitProductTerm("2" + getData());
                     break;
-                case -2:
+                default:
                     returnValue = new ImplicitProductTerm("-2" + getData());
             }
         }
@@ -74,7 +72,7 @@ public class VariableTerm extends Term<String> {
             if (!(getData().equals(term.getData()))) {
                 throw new ExpressionException();
             }
-        } else if (! (term instanceof ImplicitProductTerm)) {
+        } else if (!(term instanceof ImplicitProductTerm)) {
             throw new ExpressionException();
         }
     }
@@ -91,27 +89,28 @@ public class VariableTerm extends Term<String> {
 
 
     Term handleNormalMultiply(Term ex) {
-        Product product = new Product();
+        final Product product = new Product();
         product.addExpression(this);
         product.addExpression(ex);
         return new ImplicitProductTerm(product);
     }
 
     Term handleMultiplyByIdentity(Term ex) {
+        Term term = null;
         if (checkForMultiplyByZero(ex)) {
-            return new IntegerTerm(0);
+            term = new IntegerTerm(0);
         }
         if (checkForMultiplyByOne(ex)) {
-            return this;
+            term = this;
         }
         if (checkForMultiplyByNegativeOne(ex)) {
-            return buildNegativeThis();
+            term = buildNegativeThis();
         }
-        return null;
+        return term;
     }
 
     private Term buildNegativeThis() {
-        VariableTerm term2 = new VariableTerm(this.toString());
+        final VariableTerm term2 = new VariableTerm(this.toString());
         term2.resetNegatives();
         if (getNegativeMultiplier() == 1) {
             term2.addNegative();
@@ -127,14 +126,9 @@ public class VariableTerm extends Term<String> {
         return "1".equals(ex.toString());
     }
 
-
     boolean checkForMultiplyByZero(Term ex) {
-        if ("0".equals(ex.toString())) {
-            return true;
-        } else if (ex instanceof DecimalTerm && ((DecimalTerm) ex).getData() == 0) {
-            return true;
-        }
-        return false;
+        return ("0".equals(ex.toString()))
+            || (ex instanceof DecimalTerm && ((DecimalTerm) ex).getData() == 0);
     }
 
 }

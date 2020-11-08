@@ -8,37 +8,33 @@ import com.l3rnz.algebrain.exception.ExpressionException;
  */
 public class Sum extends IndefiniteSizeExpression {
 
-    public Sum() {
-        super();
-    }
-
-
+    @Override
     public String getOperatorString() {
         return "+";
     }
 
     @Override
-    public IndefiniteSizeExpressionPart build(IndefiniteSizeExpressionPart part) {
+    public IndefiniteSizeExpressionPart build(final IndefiniteSizeExpressionPart part) {
         if (part instanceof SumPart) {
-            return new SumPart((SumPart)part);
+            return new SumPart((SumPart) part);
         }
         throw new ExpressionException();
     }
 
     @Override
-    public IndefiniteSizeExpressionPart convertToExpressionPart(Term iTerm) {
+    public IndefiniteSizeExpressionPart convertToExpressionPart(final Term iTerm) {
         return new SumPart(iTerm);
     }
 
     @Override
-    public boolean checkForDecomposableType(Expression expression) {
+    public boolean checkForDecomposableType(final Expression expression) {
         return !(expression instanceof Sum);
     }
 
     @Override
-    public Term compute(Expression e, Expression ex) {
+    public Term compute(final Expression e, final Expression ex) {
         if (e instanceof Term) {
-            Term t = (Term) e;
+            final Term t = (Term) e;
             return t.addValue((Term) ex);
         }
         return null;

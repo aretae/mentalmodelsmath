@@ -7,6 +7,8 @@ package com.l3rnz.algebrain.domain;
  */
 public abstract class Term<T> implements Expression {
 
+    public static final char MINUS_CHARACTER = '-';
+    public static final char SPACE_CHARACTER = ' ';
     protected int negativeCount;
     private T data;
 
@@ -40,8 +42,6 @@ public abstract class Term<T> implements Expression {
         return negativeCount % 2 != 0 ? -1 : 1;
     }
 
-//    public abstract T getValue();
-
     public void addNegative() {
         negativeCount++;
     }
@@ -60,7 +60,7 @@ public abstract class Term<T> implements Expression {
 
     public abstract Term multiplyValue(Term ex);
 
-    void resetNegatives() {
+    protected void resetNegatives() {
         this.negativeCount = 0;
     }
 
@@ -68,13 +68,13 @@ public abstract class Term<T> implements Expression {
 
     public abstract void checkDataValidity(String data);
 
-    public String stripNegatives(String data) {
-        return data.replace('-',' ').trim();
+    public String stripNegatives(final String data) {
+        return data.replace(MINUS_CHARACTER, SPACE_CHARACTER).trim();
     }
 
     public void setNegatives(final String data) {
         for (char datum: data.toCharArray()) {
-            if (datum == '-') {
+            if (datum == MINUS_CHARACTER) {
                 addNegative();
             } else {
                 break;

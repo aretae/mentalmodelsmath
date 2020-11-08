@@ -8,19 +8,26 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Term to represent an product without multiplication symbols.
+ */
 public class ImplicitProductTerm extends Term<List<Expression>> {
 
     public static final String IMPLICIT_PRODUCT_TERM_REGEX = "^[-]*(([0-9]+([.][0-9]+)?)|([A-Z][a-z]*))([A-Z][a-z]*)+$";
+    public static final String MINUS_SIGN = "-";
+    public static final String EMPTY_STRING = "";
 
     public ImplicitProductTerm(final String input) {
         super(input);
     }
 
     public ImplicitProductTerm(Product inputProduct) {
-        List<Expression> variables = new ArrayList<>();
+        final List<Expression> variables = new ArrayList<>();
+        ProductPart pPart;
+        Expression expression;
         for (IndefiniteSizeExpressionPart term : inputProduct.terms) {
-            ProductPart pPart = (ProductPart) term;
-            Expression expression = pPart.getContainedExpression();
+            pPart = (ProductPart) term;
+            expression = pPart.getContainedExpression();
             if (expression instanceof NumericTerm) {
                 variables.add(0, expression);
             } else {
@@ -43,11 +50,11 @@ public class ImplicitProductTerm extends Term<List<Expression>> {
     private boolean checkForAndStripNegatives() {
         boolean swapNegative = false;
         Term term = null;
-        for (Expression part: getData()) {
+        for (Expression part : getData()) {
             if (!(part instanceof Term)) {
                 continue;
             }
-            term = (Term) (part);
+            term = (Term) part;
             if (term.getNegativeCount() % 2 == 1) {
                 swapNegative = !swapNegative;
             }
@@ -65,73 +72,83 @@ public class ImplicitProductTerm extends Term<List<Expression>> {
 
     @Override
     public List<Expression> convertToType(final String input) {
-        List<Expression> data = new ArrayList<>();
+        final List<Expression> data = new ArrayList<>();
         processNumberTermFromString(input, data);
         processVariablesFromString(input, data);
         return data;
-    }
-
-    void processVariablesFromString(final String input, List<Expression> data) {
-        Matcher matcher = Pattern.compile("([A-Z][a-z]*)").matcher(input);
-        while (matcher.find()) {
-            data.add(new VariableTerm(matcher.group(0)));
-        }
-    }
-
-    void processNumberTermFromString(final String input, List<Expression> data) {
-        Matcher matcher = Pattern.compile("([-]*[0-9]+([.][0-9]+)?)").matcher(input);
-        if (matcher.find()) {
-            String numberSubstring = matcher.group(0);
-            if (numberSubstring.indexOf('.') > 0) {
-                data.add(0,new DecimalTerm(Double.parseDouble(numberSubstring)));
-            } else {
-                data.add(0,new IntegerTerm(Integer.parseInt(numberSubstring)));
-            }
-        } else {
-            data.add(0,new IntegerTerm(1));
-        }
     }
 
     @Override
     public Term addValue(Term ex) {
         Term returnTerm = null;
         if (checkForAddableVariableTerm(ex)) {
-            VariableTerm variableTerm = (VariableTerm) ex;
-            returnTerm = addWithoutChecks(variableTerm);
+            returnTerm = addWithoutChecks((VariableTerm) ex);
         } else if (ex instanceof ImplicitProductTerm) {
-            ImplicitProductTerm otherTerm = (ImplicitProductTerm) ex;
-            returnTerm = addWithoutChecks(otherTerm);
+            returnTerm = addWithoutChecks((ImplicitProductTerm) ex);
         } else {
             throw new ExpressionException();
         }
         return returnTerm;
     }
 
+    @Override
+    public Term multiplyValue(Term ex) {
+        return null;
+    }
+
+    void processVariablesFromString(final String input, List<Expression> data) {
+        final Matcher matcher = Pattern.compile("([A-Z][a-z]*)").matcher(input);
+        while (matcher.find()) {
+            data.add(new VariableTerm(matcher.group(0)));
+        }
+    }
+
+    void processNumberTermFromString(final String input, List<Expression> data) {
+        final Matcher matcher = Pattern.compile("([-]*[0-9]+([.][0-9]+)?)").matcher(input);
+        if (matcher.find()) {
+            final String numberSubstring = matcher.group(0);
+            if (numberSubstring.indexOf('.') > 0) {
+                data.add(0, new DecimalTerm(Double.parseDouble(numberSubstring)));
+            } else {
+                data.add(0, new IntegerTerm(Integer.parseInt(numberSubstring)));
+            }
+        } else {
+            data.add(0, new IntegerTerm(1));
+        }
+    }
+
     Term addWithoutChecks(VariableTerm ex) {
-        Term returnTerm;
+        Term returnTerm = null;
         if (getData().get(0) instanceof IntegerTerm) {
-            int newCoefficient = ((IntegerTerm) getData().get(0)).getData() * getNegativeMultiplier() + 1;
+            final int newCoefficient = getIntegerCoefficientValue() + 1;
             returnTerm = new ImplicitProductTerm("" + newCoefficient + ex.getData());
         } else {
-            BigDecimal coeffCal = new BigDecimal(getData().get(0).toString()).multiply(new BigDecimal(getNegativeMultiplier()));
-            BigDecimal result = coeffCal.add(new BigDecimal(1));
+            final BigDecimal starter = new BigDecimal(getNumericString());
+            final BigDecimal possiblyNegativeValue = starter.multiply(new BigDecimal(getNegativeMultiplier()));
+            final BigDecimal result = possiblyNegativeValue.add(new BigDecimal(1));
             returnTerm = new ImplicitProductTerm("" + result.toString() + ex.getData());
         }
         return returnTerm;
     }
 
+    Term addWithoutChecks(ImplicitProductTerm otherTerm) {
+        checkForVariableMismatch(otherTerm);
+        return generateSummedTerm(otherTerm);
+    }
+
+    private int getIntegerCoefficientValue() {
+        return ((IntegerTerm) getData().get(0)).getData() * getNegativeMultiplier();
+    }
+
     boolean checkForAddableVariableTerm(Term ex) {
         return ex instanceof VariableTerm
                 && getData().size() == 2
-                && getData().get(1).toString().equals((ex.getData()));
+                && getData().get(1).toString().equals(ex.getData());
     }
 
-    Term addWithoutChecks(ImplicitProductTerm otherTerm) {
+    private Term generateSummedTerm(ImplicitProductTerm otherTerm) {
+        final Term term = buildNumberPart(otherTerm);
         Term returnTerm = null;
-        if (!allVariablesMatch(otherTerm)) {
-            throw new ExpressionException();
-        }
-        Term term = buildNumberPart(otherTerm);
         if (Double.parseDouble(term.toString()) == 0) {
             returnTerm = new IntegerTerm(0);
         } else {
@@ -140,9 +157,15 @@ public class ImplicitProductTerm extends Term<List<Expression>> {
         return returnTerm;
     }
 
+    private void checkForVariableMismatch(ImplicitProductTerm otherTerm) {
+        if (!(termCountMatches(otherTerm) && termsMatch(otherTerm))) {
+            throw new ExpressionException();
+        }
+    }
+
     private Term buildNumberPart(ImplicitProductTerm otherTerm) {
         Term term = null;
-        if (getData().get(0) instanceof IntegerTerm && otherTerm.getData().get(0)instanceof IntegerTerm) {
+        if (getData().get(0) instanceof IntegerTerm && otherTerm.getData().get(0) instanceof IntegerTerm) {
             term = buildIntegerCoefficient(otherTerm);
         } else {
             term = buildDecimalCoefficient(otherTerm);
@@ -151,58 +174,67 @@ public class ImplicitProductTerm extends Term<List<Expression>> {
     }
 
     IntegerTerm buildIntegerCoefficient(ImplicitProductTerm otherTerm) {
-
-        int thisTermValue = ((IntegerTerm) getData().get(0)).getData() * getNegativeMultiplier();
-        int otherTermValue = ((IntegerTerm) otherTerm.getData().get(0)).getData() * otherTerm.getNegativeMultiplier();
+        final int thisTermValue = getIntegerCoefficientValue();
+        final int otherTermValue = otherTerm.getIntegerCoefficientValue();
         return new IntegerTerm(thisTermValue + otherTermValue);
     }
 
     DecimalTerm buildDecimalCoefficient(ImplicitProductTerm otherTerm) {
-        BigDecimal thisDecimal = new BigDecimal((getNegativeMultiplier() > 0 ? "" : "-") + getData().get(0).toString());
-        BigDecimal otherDecimal = new BigDecimal((otherTerm.getNegativeMultiplier() > 0 ? "" : "-") + otherTerm.getData().get(0).toString());
-        BigDecimal result = thisDecimal.add(otherDecimal);
-        String output = result.toString();
-        return new DecimalTerm(output);
+        final BigDecimal thisDecimal = new BigDecimal(getNumericCoefficientWithSign());
+        final BigDecimal otherDecimal = new BigDecimal(otherTerm.getNumericCoefficientWithSign());
+        final BigDecimal result = thisDecimal.add(otherDecimal);
+        return new DecimalTerm(result.toString());
+    }
+
+    private String getNumericCoefficientWithSign() {
+        return getNegativeSignIfNecessary() + getNumericString();
+    }
+
+    private String getNumericString() {
+        return getData().get(0).toString();
+    }
+
+    private String getNegativeSignIfNecessary() {
+        return getNegativeMultiplier() > 0 ? EMPTY_STRING : MINUS_SIGN;
     }
 
     String buildString(Term ex, Term newCoefficient) {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         builder.append(newCoefficient.toString());
-        for (int i = 1; i< getData().size(); i++) {
-            Expression part = getData().get(i);
+        Expression part = null;
+        for (int i = 1; i < getData().size(); i++) {
+            part = getData().get(i);
             builder.append(part.toString());
         }
         return builder.toString();
     }
 
-    private boolean allVariablesMatch(ImplicitProductTerm otherTerm) {
-        if (getData().size() != otherTerm.getData().size()) {
-            return false;
-        }
+    private boolean termsMatch(ImplicitProductTerm otherTerm) {
+        boolean returnValue = true;
+        Expression expression2 = null;
         LOOP1:
-        for (int i = 1; i< getData().size(); i++) {
-            Expression expression =getData().get(i);
-            for (int j = 1; j< otherTerm.getData().size(); j++) {
-                Expression expression2 =otherTerm.getData().get(i);
+        for (int i = 1; i < getData().size(); i++) {
+            final Expression expression = getData().get(i);
+            for (int j = 1; j < otherTerm.getData().size(); j++) {
+                expression2 = otherTerm.getData().get(i);
                 if (expression.toString().equals(expression2.toString())) {
                     continue LOOP1;
                 }
             }
-            return false;
+            returnValue = false;
+            break;
         }
-        return true;
+        return returnValue;
     }
 
-    @Override
-    public Term multiplyValue(Term ex) {
-        return null;
+    private boolean termCountMatches(ImplicitProductTerm otherTerm) {
+        return getData().size() == otherTerm.getData().size();
     }
-
 
     public String toString() {
-        StringBuilder builder = new StringBuilder();
+        final StringBuilder builder = new StringBuilder();
         for (int i = 0; i < negativeCount; i++) {
-            builder.append("-");
+            builder.append(MINUS_SIGN);
         }
         for (Expression term : getData()) {
             if (!("1".equals(term.toString()))) {

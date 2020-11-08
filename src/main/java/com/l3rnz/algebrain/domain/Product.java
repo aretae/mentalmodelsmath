@@ -6,18 +6,16 @@ import com.l3rnz.algebrain.exception.ExpressionException;
  * Represents a product.
  */
 public class Product extends IndefiniteSizeExpression {
-    public Product() {
-        super();
-    }
 
+    @Override
     public String getOperatorString() {
         return "*";
     }
 
     @Override
-    public IndefiniteSizeExpressionPart build(IndefiniteSizeExpressionPart part) {
+    public IndefiniteSizeExpressionPart build(final IndefiniteSizeExpressionPart part) {
         if (part instanceof ProductPart) {
-            return new ProductPart((ProductPart)part);
+            return new ProductPart((ProductPart) part);
         }
         throw new ExpressionException();
     }
@@ -31,19 +29,19 @@ public class Product extends IndefiniteSizeExpression {
     }
 
     @Override
-    public IndefiniteSizeExpressionPart convertToExpressionPart(Term iTerm) {
+    public IndefiniteSizeExpressionPart convertToExpressionPart(final Term iTerm) {
         return new ProductPart(iTerm);
     }
 
     @Override
-    public boolean checkForDecomposableType(Expression expression) {
+    public boolean checkForDecomposableType(final Expression expression) {
         return !(expression instanceof Product);
     }
 
     @Override
-    public Term compute(Expression e, Expression ex) {
+    public Term compute(final Expression e, final Expression ex) {
         if (e instanceof Term) {
-            Term t = (Term) e;
+            final Term t = (Term) e;
             return t.multiplyValue((Term) ex);
         }
         return null;

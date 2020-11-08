@@ -9,7 +9,7 @@ public class SumPart extends IndefiniteSizeExpressionPart {
     private final boolean explicit;
 
     public SumPart(final Expression t) {
-        this(t,false);
+        this(t, false);
     }
 
     public SumPart(final Expression t, final boolean e) {
@@ -25,7 +25,7 @@ public class SumPart extends IndefiniteSizeExpressionPart {
 
     @Override
     public boolean displayOperator() {
-        return explicit || (term instanceof Term && !((Term)term).isNegative());
+        return explicit || (term instanceof Term && !((Term) term).isNegative());
     }
 
 

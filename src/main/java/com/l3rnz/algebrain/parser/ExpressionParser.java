@@ -21,7 +21,7 @@ public class ExpressionParser {
         }
     }
 
-    private Expression parseTerm(String input) {
+    private Expression parseTerm(final String input) {
         Term term = null;
         if (input.matches(IntegerTerm.INTEGER_TERM_REGEX)) {
             term = new IntegerTerm(input);
@@ -35,6 +35,9 @@ public class ExpressionParser {
         if (input.matches(ImplicitProductTerm.IMPLICIT_PRODUCT_TERM_REGEX)) {
             term = new ImplicitProductTerm(input);
         }
+        if (input.matches(ParentheticalTerm.PARENTHETICAL_TERM_REGEX)) {
+            term = new ParentheticalTerm(input);
+        }
         if (term == null) {
             throw new ExpressionException();
         }
@@ -42,12 +45,11 @@ public class ExpressionParser {
     }
 
 
-
     public Product parseProduct(final String input) {
-        Product product = new Product();
-        String [] parts = input.split("\\*");
-        for (String part: parts) {
-            Expression e = parseTerm(part);
+        final Product product = new Product();
+        final String[] parts = input.split("\\*");
+        for (String part : parts) {
+            final Expression e = parseTerm(part);
             product.addExpression(e);
         }
         return product;
@@ -60,7 +62,7 @@ public class ExpressionParser {
             return parseAddend(input);
         } else {
             final Sum sum = new Sum();
-            for (Map.Entry<String, Boolean> sub: parts) {
+            for (Map.Entry<String, Boolean> sub : parts) {
                 sum.addExpression(parseAddend(sub.getKey()), sub.getValue());
             }
             return sum;
@@ -83,6 +85,12 @@ public class ExpressionParser {
                                         final StringBuilder builder, final boolean usesAdd, final int index) {
         final char currentCharacter = input.charAt(index);
         final char priorCharacter = getPriorCharacter(input, index);
+        if (currentCharacter == '(') {
+
+        } else if (currentCharacter == ')') {
+
+        }
+
         boolean modifiableUsesAdd = processAddOperation(sumParts, builder, usesAdd, currentCharacter);
         modifiableUsesAdd =
                 processSubtractOperation(sumParts, builder, modifiableUsesAdd, currentCharacter, priorCharacter);
@@ -105,7 +113,7 @@ public class ExpressionParser {
         }
     }
 
-    private boolean processSubtractOperation(final List<Map.Entry<String, Boolean>> sumParts, 
+    private boolean processSubtractOperation(final List<Map.Entry<String, Boolean>> sumParts,
                                              final StringBuilder builder, final boolean usesAdd,
                                              final char currentCharacter, final char priorCharacter) {
         boolean modifiableUsesAdd = usesAdd;
@@ -130,8 +138,8 @@ public class ExpressionParser {
         return currentCharacter == '-' && isOperator(priorCharacter);
     }
 
-    private boolean isOperator(char priorCharacter) {
-        return !("+-*/".contains(priorCharacter+""));
+    private boolean isOperator(final char priorCharacter) {
+        return !("+-*/".contains(String.valueOf(priorCharacter)));
     }
 
     private boolean isAddOperation(final char currentCharacter) {

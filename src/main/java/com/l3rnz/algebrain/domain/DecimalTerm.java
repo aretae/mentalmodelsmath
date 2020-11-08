@@ -22,24 +22,24 @@ public class DecimalTerm extends NumericTerm<Double> {
     }
 
     @Override
-    public Double convertToType(String data){
+    public Double convertToType(final String data) {
         return Double.parseDouble(data);
     }
 
     @Override
-    public void checkDataValidity(String data) {
+    public void checkDataValidity(final String data) {
         if (!data.matches(DECIMAL_TERM_REGEX)) {
             throw new ExpressionException();
         }
     }
 
     @Override
-    public boolean checkNegative(Double data) {
+    public boolean checkNegative(final Double data) {
         return (double) data >= 0;
     }
 
     @Override
-    public Double makeNegative(Double data) {
+    public Double makeNegative(final Double data) {
         return -1 * data;
     }
 
@@ -56,15 +56,20 @@ public class DecimalTerm extends NumericTerm<Double> {
 
     @Override
     public Term multiplyValue(final Term ex) {
+        Term term = null;
         if (ex instanceof IntegerTerm) {
-            return new DecimalTerm(getProductWith((IntegerTerm) ex));
-        } else if (ex instanceof DecimalTerm) {
-            return new DecimalTerm(getProductWith((DecimalTerm) ex));
-        } else if (ex instanceof VariableTerm) {
-            return ex.multiplyValue(this);
-        } else {
+            term = new DecimalTerm(getProductWith((IntegerTerm) ex));
+        }
+        if (ex instanceof DecimalTerm) {
+            term = new DecimalTerm(getProductWith((DecimalTerm) ex));
+        }
+        if (ex instanceof VariableTerm) {
+            term = ex.multiplyValue(this);
+        }
+        if (term == null) {
             throw new ExpressionException();
         }
+        return term;
     }
 
     public double getProductWith(final NumericTerm ex) {

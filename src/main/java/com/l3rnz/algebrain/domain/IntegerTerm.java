@@ -20,51 +20,60 @@ public class IntegerTerm extends NumericTerm<Integer> {
     }
 
     @Override
-    public Integer convertToType(String data){
+    public Integer convertToType(final String data) {
         return Integer.parseInt(data);
     }
 
     @Override
-    public void checkDataValidity(String data) {
+    public void checkDataValidity(final String data) {
         if (!data.matches(INTEGER_TERM_REGEX)) {
             throw new ExpressionException();
         }
     }
 
     @Override
-    public boolean checkNegative(Integer data) {
+    public boolean checkNegative(final Integer data) {
         return (int) data >= 0;
     }
 
     @Override
-    public Integer makeNegative(Integer data) {
+    public Integer makeNegative(final Integer data) {
         return -1 * data;
     }
 
     @Override
     public Term addValue(final Term ex) {
+        Term term = null;
         if (ex instanceof IntegerTerm) {
-            return new IntegerTerm(getData() + ((IntegerTerm) ex).getData());
-        } else if (ex instanceof DecimalTerm) {
-            DecimalTerm dt = (DecimalTerm) ex;
-            return new DecimalTerm(dt.getSumWith(this));
-        } else {
+            term = new IntegerTerm(getData() + ((IntegerTerm) ex).getData());
+        }
+        if (ex instanceof DecimalTerm) {
+            final DecimalTerm dt = (DecimalTerm) ex;
+            term = new DecimalTerm(dt.getSumWith(this));
+        }
+        if (term == null) {
             throw new ExpressionException();
         }
+        return term;
     }
 
     @Override
     public Term multiplyValue(final Term ex) {
+        Term term = null;
         if (ex instanceof IntegerTerm) {
-            return new IntegerTerm(getData() * ((IntegerTerm) ex).getData());
-        } else if (ex instanceof DecimalTerm) {
-            DecimalTerm dt = (DecimalTerm) ex;
-            return new DecimalTerm(dt.getProductWith(this));
-        } else if (ex instanceof VariableTerm){
-            return ex.multiplyValue(this);
-        } else {
+            term = new IntegerTerm(getData() * ((IntegerTerm) ex).getData());
+        }
+        if (ex instanceof DecimalTerm) {
+            final DecimalTerm dt = (DecimalTerm) ex;
+            term = new DecimalTerm(dt.getProductWith(this));
+        }
+        if (ex instanceof VariableTerm) {
+            term = ex.multiplyValue(this);
+        }
+        if (term == null) {
             throw new ExpressionException();
         }
+        return term;
     }
 
 
