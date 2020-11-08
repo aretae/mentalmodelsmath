@@ -13,6 +13,7 @@ import java.util.Map;
  */
 public class ExpressionParser {
 
+
     public Expression parseAddend(final String input) {
         if (input.contains("*")) {
             return parseProduct(input);
@@ -57,7 +58,8 @@ public class ExpressionParser {
 
 
     public Expression parse(final String input) {
-        final List<Map.Entry<String, Boolean>> parts = splitSum(input);
+        ParseData parseData = new ParseData(input);
+        final List<Map.Entry<String, Boolean>> parts = splitSum(parseData);
         if (parts.size() == 1) {
             return parseAddend(input);
         } else {
@@ -69,33 +71,38 @@ public class ExpressionParser {
         }
     }
 
-    private List<Map.Entry<String, Boolean>> splitSum(final String input) {
+    private List<Map.Entry<String, Boolean>> splitSum(final ParseData parseData) {
         final List<Map.Entry<String, Boolean>> sumParts = new ArrayList<>();
-        final StringBuilder builder = new StringBuilder();
 
         boolean usesAdd = true;
-        for (int index = 0; index < input.length(); index++) {
-            usesAdd = processOneCharacter(input, sumParts, builder, usesAdd, index);
+        for (parseData.index = 0; parseData.index < parseData.dataToBeParsed.length(); parseData.index ++) {
+            usesAdd = processOneCharacter(parseData, sumParts, usesAdd);
         }
-        endPartAndAdd(sumParts, builder, usesAdd);
+        endPartAndAdd(sumParts, parseData.builder, usesAdd);
         return sumParts;
     }
 
-    private boolean processOneCharacter(final String input, final List<Map.Entry<String, Boolean>> sumParts,
-                                        final StringBuilder builder, final boolean usesAdd, final int index) {
-        final char currentCharacter = input.charAt(index);
-        final char priorCharacter = getPriorCharacter(input, index);
-        if (currentCharacter == '(') {
+    private boolean processOneCharacter(ParseData parseData, final List<Map.Entry<String, Boolean>> sumParts,
+                                        final boolean usesAdd) {
+        parseData.updateParenCount();
 
-        } else if (currentCharacter == ')') {
-
-        }
-
-        boolean modifiableUsesAdd = processAddOperation(sumParts, builder, usesAdd, currentCharacter);
+        boolean modifiableUsesAdd = processAddOperation(parseData, sumParts, usesAdd);
         modifiableUsesAdd =
-                processSubtractOperation(sumParts, builder, modifiableUsesAdd, currentCharacter, priorCharacter);
-        processOtherCharacters(builder, currentCharacter, priorCharacter);
+                processSubtractOperation(sumParts, parseData.builder, modifiableUsesAdd, parseData.getCurrentCharacter(), parseData.getPriorCharacter());
+        processOtherCharacters(parseData.builder, parseData.getCurrentCharacter(), parseData.getPriorCharacter());
         return modifiableUsesAdd;
+    }
+
+    private void checkForParenCount(ParseData parseData, char currentCharacter) {
+        if (currentCharacter == '(') {
+            parseData.parenthesesCount ++;
+        } else if (currentCharacter == ')') {
+            parseData.parenthesesCount --;
+        }
+    }
+
+    private char getCurrentCharacter(String dataToBeParsed, int index) {
+        return dataToBeParsed.charAt(index);
     }
 
     private char getPriorCharacter(final String input, final int index) {
@@ -124,11 +131,11 @@ public class ExpressionParser {
         return modifiableUsesAdd;
     }
 
-    private boolean processAddOperation(final List<Map.Entry<String, Boolean>> sumParts, final StringBuilder builder,
-                                        final boolean usesAdd, final char currentCharacter) {
+    private boolean processAddOperation(ParseData parseData, final List<Map.Entry<String, Boolean>> sumParts,
+                                        final boolean usesAdd) {
         boolean modifiableUsesAdd = usesAdd;
-        if (isAddOperation(currentCharacter)) {
-            endPartAndAdd(sumParts, builder, usesAdd);
+        if (isAddOperation(parseData.getCurrentCharacter())) {
+            endPartAndAdd(sumParts, parseData.builder, usesAdd);
             modifiableUsesAdd = true;
         }
         return modifiableUsesAdd;
@@ -152,5 +159,37 @@ public class ExpressionParser {
         final Map.Entry<String, Boolean> pair = Map.entry(entryString, usesAdd);
         sumParts.add(pair);
         builder.delete(0, builder.length());
+    }
+
+    private static class ParseData {
+        public ParseData(String input) {
+            dataToBeParsed = input;
+            builder = new StringBuilder();
+        }
+        public String dataToBeParsed;
+        public StringBuilder builder;
+        public int parenthesesCount;
+        public int index;
+
+        public char getCurrentCharacter() {
+            return dataToBeParsed.charAt(index);
+        }
+
+        public char getPriorCharacter() {
+            char priorCharacter = '+';
+            if (index != 0) {
+                priorCharacter = dataToBeParsed.charAt(index - 1);
+            }
+            return priorCharacter;
+        }
+
+        private void updateParenCount() {
+            if (getCurrentCharacter()== '(') {
+                parenthesesCount ++;
+            } else if (getCurrentCharacter()== ')') {
+                parenthesesCount --;
+            }
+        }
+
     }
 }
