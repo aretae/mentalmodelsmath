@@ -50,12 +50,12 @@ public class ParenthesesTest {
         });
     }
 
-//    @Test
-//    public void testThatParentheticalExpressionHandlesNestedParentheses() {
-//        String expected = "(3+(4+5))";
-//        ParentheticalTerm term = new ParentheticalTerm(expected);
-//        String actual = term.toString();
-//        assertEquals(expected, actual);
-//    }
+    @Test
+    public void testThatParentheticalExpressionHandlesNestedParentheses() {
+        String expected = "(3+(4+5))";
+        ParentheticalTerm term = new ParentheticalTerm(expected);
+        String actual = term.toString();
+        assertEquals(expected, actual);
+    }
 
 }
