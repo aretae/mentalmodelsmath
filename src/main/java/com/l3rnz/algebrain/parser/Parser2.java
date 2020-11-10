@@ -1,9 +1,6 @@
 package com.l3rnz.algebrain.parser;
 
-import com.l3rnz.algebrain.domain.DecimalTerm;
-import com.l3rnz.algebrain.domain.Expression;
-import com.l3rnz.algebrain.domain.IntegerTerm;
-import com.l3rnz.algebrain.domain.Token;
+import com.l3rnz.algebrain.domain.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,13 +35,30 @@ public class Parser2 {
 
     public Expression parse(String input) {
         List<Token> tokens = tokenize(input);
-        String tokenString = tokens.get(0).toString();
-        if (tokenString.matches(IntegerTerm.INTEGER_TERM_REGEX)) {
-            return new IntegerTerm(tokenString);
-        } else if (tokenString.matches(DecimalTerm.DECIMAL_TERM_REGEX)) {
-            return new DecimalTerm(tokenString);
-        } else {
-            return null;
-        }
+        return parse(tokens);
     }
+
+    public Expression parse(List<Token> tokens) {
+        String tokenString = null;
+        Expression returnExpression = null;
+        int index = getIndexOfMostImportantToken();
+        tokenString = tokens.get(index).toString();
+        if (Term.MINUS_STRING.equals(tokenString)) {
+            returnExpression = parse(tokens.subList(index+1, tokens.size()));
+            ((Term) returnExpression).addNegative();
+        }
+        if (tokenString.matches(IntegerTerm.INTEGER_TERM_REGEX)) {
+            returnExpression = new IntegerTerm(tokenString);
+        } else if (tokenString.matches(DecimalTerm.DECIMAL_TERM_REGEX)) {
+            returnExpression = new DecimalTerm(tokenString);
+        } else if (tokenString.matches(VariableTerm.VARIABLE_TERM_REGEX)) {
+            returnExpression = new VariableTerm(tokenString);
+        }
+        return returnExpression;
+    }
+
+    public int getIndexOfMostImportantToken() {
+        return 0;
+    }
+
 }

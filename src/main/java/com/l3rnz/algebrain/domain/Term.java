@@ -9,6 +9,8 @@ public abstract class Term<T> implements Expression {
 
     public static final char MINUS_CHARACTER = '-';
     public static final char SPACE_CHARACTER = ' ';
+    public static final String MINUS_STRING = "-";
+    public static final String SPACE_STRING = " ";
     protected int negativeCount;
     private T data;
 

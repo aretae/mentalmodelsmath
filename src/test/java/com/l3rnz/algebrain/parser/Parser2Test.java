@@ -98,7 +98,7 @@ public class Parser2Test {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"35", "3.8"})
+    @ValueSource(strings = {"35", "3.8", "A", "Frederick", "-3", "--4.5", "-Bobby", "----1234"})
     public void testThatParseWorksWithNumber(String expected) {
         Parser2 parser = new Parser2();
         Expression expression = parser.parse(expected);
