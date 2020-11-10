@@ -23,19 +23,19 @@ public class ExpressionParser {
 
     private Expression parseTerm(final String input) {
         Term term = null;
-        if (input.matches(IntegerTerm.INTEGER_TERM_REGEX)) {
+        if (input.matches(ExpressionConstants.INTEGER_TERM_REGEX)) {
             term = new IntegerTerm(input);
         }
-        if (input.matches(DecimalTerm.DECIMAL_TERM_REGEX)) {
+        if (input.matches(ExpressionConstants.DECIMAL_TERM_REGEX)) {
             term = new DecimalTerm(input);
         }
-        if (input.matches(VariableTerm.VARIABLE_TERM_REGEX)) {
+        if (input.matches(ExpressionConstants.VARIABLE_TERM_WITH_NEGATIVE_REGEX)) {
             term = new VariableTerm(input);
         }
-        if (input.matches(ImplicitProductTerm.IMPLICIT_PRODUCT_TERM_REGEX)) {
+        if (input.matches(ExpressionConstants.IMPLICIT_PRODUCT_TERM_REGEX)) {
             term = new ImplicitProductTerm(input);
         }
-        if (input.matches(ParentheticalTerm.PARENTHETICAL_TERM_REGEX)) {
+        if (input.matches(ExpressionConstants.PARENTHETICAL_TERM_REGEX)) {
             term = new ParentheticalTerm(input);
         }
         if (term == null) {

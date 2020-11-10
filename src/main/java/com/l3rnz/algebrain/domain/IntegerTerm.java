@@ -9,8 +9,6 @@ import com.l3rnz.algebrain.exception.ExpressionException;
  */
 public class IntegerTerm extends NumericTerm<Integer> {
 
-    public static final String INTEGER_TERM_REGEX = "^[-]*[0-9]+$";
-
     public IntegerTerm(final Integer data) {
         super(data);
     }
@@ -26,7 +24,7 @@ public class IntegerTerm extends NumericTerm<Integer> {
 
     @Override
     public void checkDataValidity(final String data) {
-        if (!data.matches(INTEGER_TERM_REGEX)) {
+        if (!data.matches(ExpressionConstants.INTEGER_TERM_REGEX)) {
             throw new ExpressionException();
         }
     }

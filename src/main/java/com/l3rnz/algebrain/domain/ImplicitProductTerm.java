@@ -13,10 +13,6 @@ import java.util.regex.Pattern;
  */
 public class ImplicitProductTerm extends Term<List<Expression>> {
 
-    public static final String IMPLICIT_PRODUCT_TERM_REGEX = "^[-]*(([0-9]+([.][0-9]+)?)|([A-Z][a-z]*))([A-Z][a-z]*)+$";
-    public static final String MINUS_SIGN = "-";
-    public static final String EMPTY_STRING = "";
-
     public ImplicitProductTerm(final String input) {
         super(input);
     }
@@ -65,7 +61,7 @@ public class ImplicitProductTerm extends Term<List<Expression>> {
 
     @Override
     public void checkDataValidity(String input) {
-        if (!input.matches(IMPLICIT_PRODUCT_TERM_REGEX)) {
+        if (!input.matches(ExpressionConstants.IMPLICIT_PRODUCT_TERM_REGEX)) {
             throw new ExpressionException();
         }
     }
@@ -97,17 +93,17 @@ public class ImplicitProductTerm extends Term<List<Expression>> {
     }
 
     void processVariablesFromString(final String input, List<Expression> data) {
-        final Matcher matcher = Pattern.compile("([A-Z][a-z]*)").matcher(input);
+        final Matcher matcher = Pattern.compile(ExpressionConstants.VARIABLE_NAME_REGEX).matcher(input);
         while (matcher.find()) {
             data.add(new VariableTerm(matcher.group(0)));
         }
     }
 
     void processNumberTermFromString(final String input, List<Expression> data) {
-        final Matcher matcher = Pattern.compile("([-]*[0-9]+([.][0-9]+)?)").matcher(input);
+        final Matcher matcher = Pattern.compile(ExpressionConstants.DECIMAL_WITH_NEGATIVES_REGEX).matcher(input);
         if (matcher.find()) {
             final String numberSubstring = matcher.group(0);
-            if (numberSubstring.indexOf('.') > 0) {
+            if (numberSubstring.indexOf(ExpressionConstants.DOT_CHAR) > 0) {
                 data.add(0, new DecimalTerm(Double.parseDouble(numberSubstring)));
             } else {
                 data.add(0, new IntegerTerm(Integer.parseInt(numberSubstring)));
@@ -195,7 +191,7 @@ public class ImplicitProductTerm extends Term<List<Expression>> {
     }
 
     private String getNegativeSignIfNecessary() {
-        return getNegativeMultiplier() > 0 ? EMPTY_STRING : MINUS_SIGN;
+        return getNegativeMultiplier() > 0 ? ExpressionConstants.EMPTY_STRING : ExpressionConstants.MINUS_STRING;
     }
 
     String buildString(Term ex, Term newCoefficient) {
@@ -234,7 +230,7 @@ public class ImplicitProductTerm extends Term<List<Expression>> {
     public String toString() {
         final StringBuilder builder = new StringBuilder();
         for (int i = 0; i < negativeCount; i++) {
-            builder.append(MINUS_SIGN);
+            builder.append(ExpressionConstants.MINUS_STRING);
         }
         for (Expression term : getData()) {
             if (!("1".equals(term.toString()))) {

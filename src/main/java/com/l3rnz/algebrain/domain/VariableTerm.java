@@ -8,8 +8,6 @@ import com.l3rnz.algebrain.exception.ExpressionException;
 
 public class VariableTerm extends Term<String> {
 
-    public static final String VARIABLE_TERM_REGEX = "^[-]*[A-Z][a-z]*$";
-
     public VariableTerm(final String data) {
         super(data);
     }
@@ -21,13 +19,13 @@ public class VariableTerm extends Term<String> {
 
     @Override
     public void checkDataValidity(String data) {
-        if (!data.matches(VARIABLE_TERM_REGEX)) {
+        if (!data.matches(ExpressionConstants.VARIABLE_TERM_WITH_NEGATIVE_REGEX)) {
             throw new ExpressionException();
         }
     }
 
     private void handleBadData(final String data) {
-        if (!data.matches(VARIABLE_TERM_REGEX)) {
+        if (!data.matches(ExpressionConstants.VARIABLE_TERM_WITH_NEGATIVE_REGEX)) {
             throw new ExpressionException();
         }
     }

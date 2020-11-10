@@ -5,14 +5,12 @@ import com.l3rnz.algebrain.parser.ExpressionParser;
 
 public class ParentheticalTerm extends Term<Expression>{
 
-    public static final String PARENTHETICAL_TERM_REGEX = "^\\(.*\\)$";
-
     public ParentheticalTerm(Expression expression) {
         setData(expression);
     }
 
     public ParentheticalTerm(String input) {
-        if (!input.matches(PARENTHETICAL_TERM_REGEX) && checkThatParenthesesMatch(input)) {
+        if (!input.matches(ExpressionConstants.PARENTHETICAL_TERM_REGEX) && checkThatParenthesesMatch(input)) {
             throw new ExpressionException();
         }
         setData(new ExpressionParser().parse(input.substring(1, input.length()-1)));

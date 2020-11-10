@@ -10,8 +10,6 @@ import java.math.BigDecimal;
  */
 public class DecimalTerm extends NumericTerm<Double> {
 
-    public static final String DECIMAL_TERM_REGEX = "^[-]*[0-9]+\\.[0-9]+$";
-
     public DecimalTerm(final Double data) {
         super(data);
     }
@@ -28,7 +26,7 @@ public class DecimalTerm extends NumericTerm<Double> {
 
     @Override
     public void checkDataValidity(final String data) {
-        if (!data.matches(DECIMAL_TERM_REGEX)) {
+        if (!data.matches(ExpressionConstants.DECIMAL_TERM_REGEX)) {
             throw new ExpressionException();
         }
     }

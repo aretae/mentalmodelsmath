@@ -1,6 +1,9 @@
 package com.l3rnz.algebrain.parser;
 
+import com.l3rnz.algebrain.domain.ExpressionConstants;
+
 public class OperatorTokenBuilder extends TokenBuilder {
+
     public OperatorTokenBuilder(char firstChar) {
         super(firstChar);
     }
@@ -13,6 +16,7 @@ public class OperatorTokenBuilder extends TokenBuilder {
     }
 
     boolean checkForInequalities(char c) {
-        return c=='=' && builder.toString().length()==1 && "><!".contains(builder.toString());
+        return c== ExpressionConstants.EQUALS_CHAR && builder.toString().length()==1
+                && ExpressionConstants.INEQUALITY_PARTS_STRING.contains(builder.toString());
     }
 }
