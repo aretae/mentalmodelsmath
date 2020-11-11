@@ -185,7 +185,6 @@ public class SumTest {
 
     @Test
     public void testThatMergeWorks() {
-
         Expression e = sum.findElementAt(0);
         Expression newEx = sum.merge(e, false);
         String actual = newEx.toString();
@@ -574,5 +573,31 @@ public class SumTest {
         assertEquals(expected, actual);
     }
 
+    @Test
+    public void testThatSumSupportsParentheses() {
+        IntegerTerm term = new IntegerTerm(3);
+        IntegerTerm term1 = new IntegerTerm(4);
+        ParentheticalTerm paren = new ParentheticalTerm(term1);
+        String expected = "3+(4)";
+        Sum sum = new Sum();
+        sum.addExpression(term);
+        sum.addExpression(paren);
+        String actual = sum.toString();
+        assertEquals(expected, actual);
+    }
 
+    @Test
+    public void testThatAddParenthesesWithNumberInsideMakesSum() {
+        IntegerTerm term = new IntegerTerm(3);
+        IntegerTerm term1 = new IntegerTerm(4);
+        ParentheticalTerm paren = new ParentheticalTerm(term1);
+        String expected = "3+4";
+        Sum sum = new Sum();
+        sum.addExpression(term);
+        sum.addExpression(paren);
+        Expression e = sum.findElementAt(0);
+        Expression newEx = sum3.merge(e, false);
+        String actual = newEx.toString();
+        assertEquals(expected, actual);
+    }
 }

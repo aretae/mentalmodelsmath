@@ -101,7 +101,7 @@ public class Parser2Test {
     @ValueSource(strings = {
             "35", "3.8", "A", "Frederick", "-3", "--4.5", "-Bobby", "----1234", "2*3",
             "2*3*4", "-3.5*-Bob", "3+4", "3.5-Bob", "3--Bob", "-3--4.5-Bob", "-3+-4.5-Bob",
-            "3A", "3ABob", "-3.5PiAreSquare"
+            "3A", "3ABob", "-3.5PiAreSquare", "-3--4.5+9.8MetersPerSecondSquared-Bob"
     })
     public void testThatParseWorksWithExpression(String expected) {
         Parser2 parser = new Parser2();

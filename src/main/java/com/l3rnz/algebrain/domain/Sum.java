@@ -32,10 +32,10 @@ public class Sum extends IndefiniteSizeExpression {
     }
 
     @Override
-    public Term compute(final Expression e, final Expression ex) {
+    public Expression compute(final Expression e, final Expression ex) {
         if (e instanceof Term) {
             final Term t = (Term) e;
-            return t.addValue((Term) ex);
+            return t.addValue(ex);
         }
         return null;
     }

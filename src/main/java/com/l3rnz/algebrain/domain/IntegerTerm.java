@@ -40,17 +40,15 @@ public class IntegerTerm extends NumericTerm<Integer> {
     }
 
     @Override
-    public Term addValue(final Term ex) {
-        Term term = null;
+    public Expression addValue(final Expression ex) {
+        Expression term = null;
+        if (ex == null || !(ex instanceof Term)) {
+            throw new ExpressionException();
+        }
         if (ex instanceof IntegerTerm) {
             term = new IntegerTerm(getData() + ((IntegerTerm) ex).getData());
-        }
-        if (ex instanceof DecimalTerm) {
-            final DecimalTerm dt = (DecimalTerm) ex;
-            term = new DecimalTerm(dt.getSumWith(this));
-        }
-        if (term == null) {
-            throw new ExpressionException();
+        } else {
+            term = ((Term) ex).addValue(this);
         }
         return term;
     }

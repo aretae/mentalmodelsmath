@@ -42,7 +42,7 @@ public class DecimalTerm extends NumericTerm<Double> {
     }
 
     @Override
-    public Term addValue(final Term ex) {
+    public Expression addValue(final Expression ex) {
         if (ex instanceof IntegerTerm) {
             return new DecimalTerm(getSumWith((IntegerTerm) ex));
         } else if (ex instanceof DecimalTerm) {

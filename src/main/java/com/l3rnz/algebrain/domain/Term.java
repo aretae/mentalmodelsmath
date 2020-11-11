@@ -34,7 +34,7 @@ public abstract class Term<T> implements Expression {
         return negativeCount > 0;
     }
 
-    public abstract Term addValue(Term ex);
+    public abstract Expression addValue(Expression ex);
 
     public int getNegativeMultiplier() {
         return negativeCount % 2 != 0 ? -1 : 1;

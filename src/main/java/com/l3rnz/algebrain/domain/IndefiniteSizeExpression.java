@@ -102,7 +102,7 @@ public abstract class IndefiniteSizeExpression implements Expression {
         return compute(e, ex);
     }
 
-    public abstract Term compute(Expression e, Expression ex);
+    public abstract Expression compute(Expression e, Expression ex);
 
 
     private void checkForIllegalMerge(final boolean left, final int i) {

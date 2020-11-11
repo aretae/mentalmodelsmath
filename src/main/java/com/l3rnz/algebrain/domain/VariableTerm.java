@@ -40,18 +40,18 @@ public class VariableTerm extends Term<String> {
     }
 
     @Override
-    public Term addValue(final Term term) {
+    public Expression addValue(final Expression term) {
         if (term instanceof ImplicitProductTerm) {
-            return term.addValue(this);
+            return ((Term) term).addValue(this);
         }
         handleBadAdd(term);
         return handleAddingTerms(term);
     }
 
-    private Term handleAddingTerms(Term term) {
+    private Term handleAddingTerms(Expression term) {
         Term returnValue = null;
         if (term instanceof VariableTerm) {
-            switch (term.getNegativeMultiplier() + this.getNegativeMultiplier()) {
+            switch (((Term) term).getNegativeMultiplier() + this.getNegativeMultiplier()) {
                 case 0:
                     returnValue = new IntegerTerm(0);
                     break;
@@ -65,9 +65,9 @@ public class VariableTerm extends Term<String> {
         return returnValue;
     }
 
-    private void handleBadAdd(Term term) {
+    private void handleBadAdd(Expression term) {
         if (term instanceof VariableTerm) {
-            if (!(getData().equals(term.getData()))) {
+            if (!(getData().equals(((Term) term).getData()))) {
                 throw new ExpressionException();
             }
         } else if (!(term instanceof ImplicitProductTerm)) {

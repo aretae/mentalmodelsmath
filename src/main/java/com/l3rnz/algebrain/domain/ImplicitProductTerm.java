@@ -75,7 +75,7 @@ public class ImplicitProductTerm extends Term<List<Expression>> {
     }
 
     @Override
-    public Term addValue(Term ex) {
+    public Expression addValue(Expression ex) {
         Term returnTerm = null;
         if (checkForAddableVariableTerm(ex)) {
             returnTerm = addWithoutChecks((VariableTerm) ex);
@@ -136,10 +136,10 @@ public class ImplicitProductTerm extends Term<List<Expression>> {
         return ((IntegerTerm) getData().get(0)).getData() * getNegativeMultiplier();
     }
 
-    boolean checkForAddableVariableTerm(Term ex) {
+    boolean checkForAddableVariableTerm(Expression ex) {
         return ex instanceof VariableTerm
                 && getData().size() == 2
-                && getData().get(1).toString().equals(ex.getData());
+                && getData().get(1).toString().equals(((Term) ex).getData());
     }
 
     private Term generateSummedTerm(ImplicitProductTerm otherTerm) {

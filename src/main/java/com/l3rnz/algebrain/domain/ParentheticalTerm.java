@@ -46,8 +46,11 @@ public class ParentheticalTerm extends Term<Expression>{
     }
 
     @Override
-    public Term addValue(Term ex) {
-        return null;
+    public Expression addValue(Expression ex) {
+        Sum sum = new Sum();
+        sum.addExpression(getData());
+        sum.addExpression(ex);
+        return sum;
     }
 
     @Override
