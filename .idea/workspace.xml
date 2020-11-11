@@ -5,21 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="8e8cdbe0-f753-469c-8363-e0ee3e354119" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/l3rnz/algebrain/domain/ExpressionConstants.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/l3rnz/algebrain/domain/DecimalTerm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/l3rnz/algebrain/domain/DecimalTerm.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/l3rnz/algebrain/domain/ImplicitProductTerm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/l3rnz/algebrain/domain/ImplicitProductTerm.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/l3rnz/algebrain/domain/IntegerTerm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/l3rnz/algebrain/domain/IntegerTerm.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/l3rnz/algebrain/domain/ParentheticalTerm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/l3rnz/algebrain/domain/ParentheticalTerm.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/l3rnz/algebrain/domain/Term.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/l3rnz/algebrain/domain/Term.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/l3rnz/algebrain/domain/Token.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/l3rnz/algebrain/domain/Token.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/l3rnz/algebrain/domain/VariableTerm.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/l3rnz/algebrain/domain/VariableTerm.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/l3rnz/algebrain/parser/ExpressionParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/l3rnz/algebrain/parser/ExpressionParser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/l3rnz/algebrain/parser/NumberTokenBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/l3rnz/algebrain/parser/NumberTokenBuilder.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/l3rnz/algebrain/parser/OperatorTokenBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/l3rnz/algebrain/parser/OperatorTokenBuilder.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/l3rnz/algebrain/parser/Parser2.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/l3rnz/algebrain/parser/Parser2.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/l3rnz/algebrain/parser/TokenBuilderFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/l3rnz/algebrain/parser/TokenBuilderFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/l3rnz/algebrain/parser/VariableTokenBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/l3rnz/algebrain/parser/VariableTokenBuilder.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/com/l3rnz/algebrain/parser/Parser2Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/l3rnz/algebrain/parser/Parser2Test.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -73,51 +60,27 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/l3rnz/algebrain/domain/ImplicitProductTerm.java">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/test/java/com/l3rnz/algebrain/parser/Parser2Test.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="190">
-              <caret line="232" column="54" selection-start-line="232" selection-start-column="54" selection-end-line="232" selection-end-column="54" />
+            <state relative-caret-position="261">
+              <caret line="103" column="43" selection-start-line="103" selection-start-column="43" selection-end-line="103" selection-end-column="43" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#2907#2908#0" expanded="true" />
-                <element signature="e#2934#2935#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/l3rnz/algebrain/domain/VariableTerm.java">
+        <entry file="file://$PROJECT_DIR$/src/main/java/com/l3rnz/algebrain/parser/Parser2.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="220">
-              <caret line="10" column="4" selection-start-line="10" selection-start-column="4" selection-end-line="10" selection-end-column="4" />
+            <state relative-caret-position="850">
+              <caret line="90" selection-start-line="90" selection-end-line="90" />
               <folding>
-                <element signature="e#311#312#0" expanded="true" />
-                <element signature="e#338#339#0" expanded="true" />
+                <element signature="imports" expanded="true" />
+                <element signature="e#6118#6119#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/l3rnz/algebrain/domain/IntegerTerm.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="242">
-              <caret line="11" column="4" selection-start-line="11" selection-start-column="4" selection-end-line="11" selection-end-column="4" />
-              <folding>
-                <element signature="e#467#468#0" expanded="true" />
-                <element signature="e#512#513#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/l3rnz/algebrain/domain/ExpressionConstants.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="476">
-              <caret line="23" selection-start-line="23" selection-end-line="23" />
             </state>
           </provider>
         </entry>
@@ -125,61 +88,14 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/l3rnz/algebrain/domain/Token.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="242">
-              <caret line="11" selection-start-line="11" selection-end-line="11" />
+            <state relative-caret-position="718">
+              <caret line="51" column="19" selection-start-line="51" selection-start-column="19" selection-end-line="51" selection-end-column="19" />
               <folding>
                 <element signature="e#840#841#0" expanded="true" />
                 <element signature="e#884#885#0" expanded="true" />
+                <element signature="e#1348#1349#0" expanded="true" />
+                <element signature="e#1413#1414#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/l3rnz/algebrain/domain/ProductPart.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="110">
-              <caret line="5" column="45" selection-start-line="5" selection-start-column="45" selection-end-line="5" selection-end-column="45" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/l3rnz/algebrain/domain/Sum.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="22">
-              <caret line="8" column="51" selection-start-line="8" selection-start-column="51" selection-end-line="8" selection-end-column="51" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/l3rnz/algebrain/domain/SumPart.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="278">
-              <caret line="27" column="61" selection-start-line="27" selection-start-column="61" selection-end-line="27" selection-end-column="61" />
-              <folding>
-                <element signature="e#208#209#0" expanded="true" />
-                <element signature="e#238#239#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/l3rnz/algebrain/domain/Term.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="198">
-              <caret line="9" column="4" selection-start-line="8" selection-end-line="9" selection-end-column="4" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/java/com/l3rnz/algebrain/domain/Product.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="770">
-              <caret line="41" column="50" selection-start-line="41" selection-start-column="50" selection-end-line="41" selection-end-column="50" />
             </state>
           </provider>
         </entry>
@@ -256,15 +172,15 @@
         <option value="$PROJECT_DIR$/src/test/java/com/l3rnz/algebrain/parser/TokenBuilder.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/l3rnz/algebrain/parser/TokenBuilder.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/l3rnz/algebrain/domain/Term.java" />
-        <option value="$PROJECT_DIR$/src/test/java/com/l3rnz/algebrain/parser/Parser2Test.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/l3rnz/algebrain/parser/NumberTokenBuilder.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/l3rnz/algebrain/domain/Token.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/l3rnz/algebrain/parser/Parser2.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/l3rnz/algebrain/parser/OperatorTokenBuilder.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/l3rnz/algebrain/parser/TokenBuilderFactory.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/l3rnz/algebrain/parser/VariableTokenBuilder.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/l3rnz/algebrain/domain/ImplicitProductTerm.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/l3rnz/algebrain/domain/ExpressionConstants.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/l3rnz/algebrain/domain/Token.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/l3rnz/algebrain/parser/Parser2.java" />
+        <option value="$PROJECT_DIR$/src/test/java/com/l3rnz/algebrain/parser/Parser2Test.java" />
       </list>
     </option>
   </component>
@@ -323,6 +239,15 @@
               <item name="java" type="462c0819:PsiDirectoryNode" />
               <item name="algebrain" type="462c0819:PsiDirectoryNode" />
               <item name="domain" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="round2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="round2" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="algebrain" type="462c0819:PsiDirectoryNode" />
+              <item name="parser" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="round2" type="b2602c69:ProjectViewProjectNode" />
@@ -531,24 +456,6 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="Parser2Test - 2020.11.09 at 22h 09m 26s.xml">
-      <configuration name="Parser2Test" configurationId="GradleRunConfiguration" />
-    </history-entry>
-    <history-entry file="Parser2Test - 2020.11.09 at 22h 09m 49s.xml">
-      <configuration name="Parser2Test" configurationId="GradleRunConfiguration" />
-    </history-entry>
-    <history-entry file="Parser2Test - 2020.11.09 at 22h 10m 37s.xml">
-      <configuration name="Parser2Test" configurationId="GradleRunConfiguration" />
-    </history-entry>
-    <history-entry file="Parser2Test - 2020.11.09 at 22h 12m 44s.xml">
-      <configuration name="Parser2Test" configurationId="GradleRunConfiguration" />
-    </history-entry>
-    <history-entry file="Parser2Test - 2020.11.09 at 22h 24m 24s.xml">
-      <configuration name="Parser2Test" configurationId="GradleRunConfiguration" />
-    </history-entry>
-    <history-entry file="Parser2Test - 2020.11.09 at 22h 25m 20s.xml">
-      <configuration name="Parser2Test" configurationId="GradleRunConfiguration" />
-    </history-entry>
     <history-entry file="Parser2Test - 2020.11.09 at 22h 42m 45s.xml">
       <configuration name="Parser2Test" configurationId="GradleRunConfiguration" />
     </history-entry>
@@ -561,10 +468,27 @@
     <history-entry file="round2_[test] - 2020.11.09 at 22h 52m 37s.xml">
       <configuration name="round2 [test]" configurationId="GradleRunConfiguration" />
     </history-entry>
+    <history-entry file="round2_[test] - 2020.11.09 at 22h 53m 35s.xml">
+      <configuration name="round2 [test]" configurationId="GradleRunConfiguration" />
+    </history-entry>
+    <history-entry file="round2_[test] - 2020.11.10 at 13h 03m 34s.xml">
+      <configuration name="round2 [test]" configurationId="GradleRunConfiguration" />
+    </history-entry>
+    <history-entry file="round2_[test] - 2020.11.10 at 17h 46m 29s.xml">
+      <configuration name="round2 [test]" configurationId="GradleRunConfiguration" />
+    </history-entry>
+    <history-entry file="round2_[test] - 2020.11.10 at 18h 00m 09s.xml">
+      <configuration name="round2 [test]" configurationId="GradleRunConfiguration" />
+    </history-entry>
+    <history-entry file="round2_[test] - 2020.11.10 at 18h 28m 33s.xml">
+      <configuration name="round2 [test]" configurationId="GradleRunConfiguration" />
+    </history-entry>
+    <history-entry file="round2_[test] - 2020.11.10 at 18h 29m 04s.xml">
+      <configuration name="round2 [test]" configurationId="GradleRunConfiguration" />
+    </history-entry>
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="Structure" order="0" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="1" />
@@ -572,10 +496,10 @@
       <window_info id="Capture Tool" order="3" />
       <window_info id="UI Designer" order="4" />
       <window_info id="Favorites" order="5" side_tool="true" />
-      <window_info active="true" content_ui="combo" id="Project" order="6" visible="true" weight="0.2744361" />
+      <window_info content_ui="combo" id="Project" order="6" visible="true" weight="0.2744361" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32924107" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.32924107" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.32924107" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39955357" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -632,12 +556,6 @@
           <line>21</line>
           <properties />
           <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/l3rnz/algebrain/parser/Parser2.java</url>
-          <line>129</line>
-          <properties />
-          <option name="timeStamp" value="8" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -807,16 +725,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/test/java/com/l3rnz/algebrain/parser/Parser2Test.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1840">
-          <caret line="103" column="15" selection-start-line="103" selection-start-column="15" selection-end-line="103" selection-end-column="15" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/l3rnz/algebrain/parser/ExpressionParser.java">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -833,23 +741,6 @@
           <folding>
             <element signature="e#138#139#0" expanded="true" />
             <element signature="e#170#171#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/l3rnz/algebrain/parser/Parser2.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="22">
-          <caret line="10" selection-start-line="10" selection-end-line="10" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#327#328#0" expanded="true" />
-            <element signature="e#379#380#0" expanded="true" />
-            <element signature="e#510#517#0" expanded="true" />
-            <element signature="e#2737#2738#0" expanded="true" />
-            <element signature="e#2765#2766#0" expanded="true" />
-            <element signature="e#2214#2215#0" expanded="true" />
-            <element signature="e#5457#5458#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -1023,17 +914,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/l3rnz/algebrain/domain/Token.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="242">
-          <caret line="11" selection-start-line="11" selection-end-line="11" />
-          <folding>
-            <element signature="e#840#841#0" expanded="true" />
-            <element signature="e#884#885#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/l3rnz/algebrain/domain/VariableTerm.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="220">
@@ -1047,8 +927,42 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/l3rnz/algebrain/domain/ExpressionConstants.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="476">
+        <state relative-caret-position="506">
           <caret line="23" selection-start-line="23" selection-end-line="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/l3rnz/algebrain/domain/Token.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="718">
+          <caret line="51" column="19" selection-start-line="51" selection-start-column="19" selection-end-line="51" selection-end-column="19" />
+          <folding>
+            <element signature="e#840#841#0" expanded="true" />
+            <element signature="e#884#885#0" expanded="true" />
+            <element signature="e#1348#1349#0" expanded="true" />
+            <element signature="e#1413#1414#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/l3rnz/algebrain/parser/Parser2.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="850">
+          <caret line="90" selection-start-line="90" selection-end-line="90" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#6118#6119#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/com/l3rnz/algebrain/parser/Parser2Test.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="261">
+          <caret line="103" column="43" selection-start-line="103" selection-start-column="43" selection-end-line="103" selection-end-column="43" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

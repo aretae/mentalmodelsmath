@@ -30,7 +30,7 @@ public class Parser2 {
 
     Token getNextToken(String s) {
         TokenBuilder builder = factory.createTokenBuilder(s.charAt(currentIndex));
-        while (currentIndex+1 < s.length() && builder.tryToAddNextCharacter(s.charAt(currentIndex+1))) {
+        while (currentIndex + 1 < s.length() && builder.tryToAddNextCharacter(s.charAt(currentIndex + 1))) {
             currentIndex++;
         }
         return builder.getToken();
@@ -47,7 +47,7 @@ public class Parser2 {
             returnExpression = parseSum(tokens);
         } else if (isProduct(tokens)) {
             returnExpression = parseProduct(tokens);
-        } else if (isImplcitProduct(tokens)){
+        } else if (isImplcitProduct(tokens)) {
             returnExpression = parseImplicitProduct(tokens);
         } else {
             returnExpression = processTermAndNegative(tokens);
@@ -60,9 +60,9 @@ public class Parser2 {
             return false;
         }
         for (int index = 1; index < tokens.size(); index++) {
-            Token token1 = tokens.get(index-1);
+            Token token1 = tokens.get(index - 1);
             Token token2 = tokens.get(index);
-            if( shouldntFollow(token1, token2)) {
+            if (shouldntFollow(token1, token2)) {
                 return true;
             }
         }
@@ -70,34 +70,49 @@ public class Parser2 {
     }
 
     private boolean shouldntFollow(Token token1, Token token2) {
+        if (token1.isTerm() && token2.isVariable()) {
+            return true;
+        }
         return false;
     }
 
     private Expression parseImplicitProduct(List<Token> tokens) {
-        return null;
+        Product product = new Product();
+        int start = 0;
+        for (int index = 1; index < tokens.size(); index++ ) {
+            Token token1 = tokens.get(index - 1);
+            Token token2 = tokens.get(index);
+            if (shouldntFollow(token1, token2)) {
+                product.addExpression(parse(tokens.subList(start, index)));
+                start = index;
+            }
+        }
+        product.addExpression(parse(tokens.subList(start, tokens.size())));
+        ImplicitProductTerm term = new ImplicitProductTerm(product);
+        return term;
     }
 
 
     private Expression parseSum(List<Token> tokens) {
-        Sum sum= new Sum();
+        Sum sum = new Sum();
         List<Token> currentTokenList = tokens;
         int indexOfSumSeparator;
         List<Token> subList = null;
 
-        boolean explicit=true;
+        boolean explicit = true;
         int modifier;
         while (isSum(currentTokenList)) {
             indexOfSumSeparator = findFirstSplitIndex(currentTokenList);
             subList = currentTokenList.subList(0, indexOfSumSeparator);
-            sum.addExpression(parse(subList),explicit);
+            sum.addExpression(parse(subList), explicit);
             if (currentTokenList.get(indexOfSumSeparator).equals(Token.SUBTRACT_TOKEN)) {
-                modifier=0;
+                modifier = 0;
                 explicit = false;
             } else {
                 modifier = 1;
                 explicit = true;
             }
-            currentTokenList = currentTokenList.subList(indexOfSumSeparator+modifier, currentTokenList.size());
+            currentTokenList = currentTokenList.subList(indexOfSumSeparator + modifier, currentTokenList.size());
         }
         sum.addExpression(parse(currentTokenList), explicit);
         return sum;
@@ -117,9 +132,9 @@ public class Parser2 {
 
     private int findSubtractIndex(List<Token> currentTokenList) {
         Token token;
-        for (int i = 1; i<currentTokenList.size(); i++) {
+        for (int i = 1; i < currentTokenList.size(); i++) {
             token = currentTokenList.get(i);
-            if (token.equals(Token.SUBTRACT_TOKEN) && isNotJustNegative(currentTokenList,i)){
+            if (token.equals(Token.SUBTRACT_TOKEN) && isNotJustNegative(currentTokenList, i)) {
                 return i;
             }
         }
@@ -132,10 +147,10 @@ public class Parser2 {
     }
 
     private boolean isDifference(List<Token> tokens) {
-        if (! tokens.contains(Token.SUBTRACT_TOKEN)) {
+        if (!tokens.contains(Token.SUBTRACT_TOKEN)) {
             return false;
         }
-        for(int index = 1; index < tokens.size(); index++) {
+        for (int index = 1; index < tokens.size(); index++) {
             if (Token.SUBTRACT_TOKEN.equals(tokens.get(index))
                     && isNotJustNegative(tokens, index)) {
                 return true;
@@ -145,7 +160,7 @@ public class Parser2 {
     }
 
     private boolean isNotJustNegative(List<Token> tokens, int index) {
-        return !Arrays.asList(Token.TOKENS_THAT_PRECURSE_NEGATIVE).contains(tokens.get(index-1));
+        return !Arrays.asList(Token.TOKENS_THAT_PRECURSE_NEGATIVE).contains(tokens.get(index - 1));
     }
 
     Expression parseProduct(List<Token> tokens) {
@@ -158,7 +173,7 @@ public class Parser2 {
             indexOfMultiply = currentTokenList.indexOf(Token.MULTIPLY_TOKEN);
             subList = currentTokenList.subList(0, indexOfMultiply);
             product.addExpression(parse(subList));
-            currentTokenList = currentTokenList.subList(indexOfMultiply+1, currentTokenList.size());
+            currentTokenList = currentTokenList.subList(indexOfMultiply + 1, currentTokenList.size());
         }
         product.addExpression(parse(currentTokenList));
         return product;
@@ -167,7 +182,6 @@ public class Parser2 {
     private boolean isProduct(List<Token> tokens) {
         return tokens.contains(new Token("*"));
     }
-
 
 
     Expression processTermAndNegative(List<Token> tokens) {

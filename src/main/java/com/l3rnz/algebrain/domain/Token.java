@@ -48,4 +48,8 @@ public class Token {
     boolean isType(String termRegex) {
         return content != null && content.matches(termRegex);
     }
+
+    public boolean isTerm() {
+        return isDecimal() || isInteger() || isVariable();
+    }
 }
